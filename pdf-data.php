@@ -12,8 +12,8 @@ echo '
 
  <tr>
  <td style="font-size:1.3em; font-weight: bold;">
-<br><br>
-Rechnung
+<br>
+Zusammenfassung:
 <br>
  </td>
  </tr>
@@ -23,7 +23,6 @@ Rechnung
  <td colspan="2">'.nl2br(trim($rechnungs_empfaenger)).'</td>
  </tr>
 </table>
-<br><br><br>
 
 <table cellpadding="5" cellspacing="0" style="width: 100%;" border="0">
  <tr style="background-color: #cccccc; padding:5px;">

@@ -128,7 +128,7 @@ ini_set('display_startup_errors', 1);
   $year = substr($value[0],6,4);
 
   //DAS MALT DIE KURSE
-  function drawKurse($connection, $data, $user)
+  function drawKurse($connection, $data, $user, $date)
   {
     //console("start showing $data");
       foreach($data as $key => &$value)
@@ -220,8 +220,8 @@ ini_set('display_startup_errors', 1);
 ?>
   <body>
     <?php
-    if(isset($bigdata)) drawKurse($connection, $bigdata, $user); else echo "<br>- keine regulären Kurse empfangen. - ";
-    if(isset($vertretungen)) drawKurse($connection, $vertretungen, $user); else echo "<br> - keine vertretenen Kurse empfangen. - ";
+    if(isset($bigdata)) drawKurse($connection, $bigdata, $user, $date); else echo "<br>- keine regulären Kurse empfangen. - ";
+    if(isset($vertretungen)) drawKurse($connection, $vertretungen, $user, $date); else echo "<br> - keine vertretenen Kurse empfangen. - ";
     include("pdf-data.php");
     mysqli_close($connection);
 
