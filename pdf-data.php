@@ -21,7 +21,7 @@ Zusammenfassung:
 
 <table cellpadding="5" cellspacing="0" style="width: 100%;" border="0">
  <tr style="background-color: #cccccc; padding:5px;">
- <td style="padding:5px;"><b>Datum</b></td>
+ <td style="padding:5px;width:20%"><b>Datum</b></td>
  <td style="text-align: center;"><b>Kurs</b></td>
  <td style="text-align: center;"><b>Dauer</b></td>
  </tr>';
@@ -99,7 +99,7 @@ if(isset($sparten))
     echo '
       <tr>
         <td colspan="3"><b>'.$value.'stunden: </b></td>
-        <td style="text-align: center;"><b>'.number_format(${$value.'Stunden'}/60, 2, ',', '').' h</b></td>
+        <td style="text-align: left;"><b>'.number_format(${$value.'Stunden'}/60, 2, ',', '').' h</b></td>
       </tr>';
     $query = "INSERT INTO `Rechnungen` (`Vorname`, `Nachname`, `ID`, `Monat`,`Sparte`,`Anzahl`) VALUES ('$firstname', '$lastname', '$user[0]', 'piep', '$value','$stundenzahl');";
     $result = mysqli_query($connection,$query);
@@ -110,14 +110,16 @@ if($vertretungStunden > 0)
   echo '
     <tr>
       <td colspan="3"><b>Vertretungen: </b></td>
-      <td style="text-align: center;"><b>'.number_format($vertretungStunden/60, 2, ',', '').' h</b></td>
+      <td></td>
+      <td style="text-align: left;"><b>'.number_format($vertretungStunden/60, 2, ',', '').' h</b></td>
     </tr>';
 }
 
 echo'
             <tr style="background-color: #cccccc; padding:5px;">
                 <td colspan="3"><b>Gesamtstunden: </b></td>
-                <td style="text-align: center;"><b>'.number_format($gesamtStunden/60, 2, ',', '').' h</b></td>
+                <td></td>
+                <td style="text-align: left;"><b>'.number_format($gesamtStunden/60, 2, ',', '').' h</b></td>
             </tr>
         </table>
 <br><br><br>';
