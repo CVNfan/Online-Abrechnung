@@ -3,6 +3,12 @@
     <meta content="de" http-equiv="Content-Language" />
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
     <title>Abgeschickt</title>
+    <style>
+      td
+      {
+        text-align: center;
+      }
+      </style>
   </head>
 <?php
 
