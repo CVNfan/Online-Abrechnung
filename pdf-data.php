@@ -79,18 +79,16 @@ Zusammenfassung:
       else
       {
         $date = $value[0];
-        echo "<tr><td>$value[1], den $date:</td></tr>";
+        echo "<tr><td style='text-align:center;'>$value[1], den $date:</td></tr>";
         echo "<tr><td>Kursnummer: $value[4]</td><td>$value[5]</td><td>$value[6]min</td></tr>";
       }
       $vertretungStunden += $value[6];
       //echo "<br>Datum - Beginn-EndeUhr - Kursnummer - Kurstitel => DauerMin";
     }
   }
-echo '</table>';
 //HIER ZUENDE
 echo '
-<hr>
-<table cellpadding="5" cellspacing="0" style="width: 100%;" border="0">';
+<hr>';
 if(isset($sparten))
 {
   foreach($sparten as &$value)
