@@ -17,11 +17,6 @@ Zusammenfassung:
 <br>
  </td>
  </tr>
-
-
- <tr>
- <td colspan="2">'.nl2br(trim($rechnungs_empfaenger)).'</td>
- </tr>
 </table>
 
 <table cellpadding="5" cellspacing="0" style="width: 100%;" border="0">
@@ -126,9 +121,3 @@ echo'
             </tr>
         </table>
 <br><br><br>';
-
-echo 'Ich versichere, dass ich mein Honorar selbstständig versteuern werde.<br><br>';
-
-echo "<div class='right'><p class='right'>____________________________<br>Unterschrift</p></div>";
-
-echo nl2br($rechnungs_footer);
