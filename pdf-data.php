@@ -87,7 +87,6 @@ Zusammenfassung:
     }
   }
 //HIER ZUENDE
-echo '<tfoot>';
 if(isset($sparten))
 {
   foreach($sparten as &$value)
@@ -95,7 +94,7 @@ if(isset($sparten))
     $stundenzahl = ${$value.'Stunden'}/60;
     echo '
       <tr style="background-color: #cccccc; padding:5px;">
-        <td colspan="3"><b>'.$value.'stunden: </b></td>
+        <td colspan="3" style="text-align: left;"><b>'.$value.'stunden: </b></td>
         <td></td>
         <td style="text-align: left;"><b>'.number_format(${$value.'Stunden'}/60, 2, ',', '').' h</b></td>
       </tr>';
@@ -107,7 +106,7 @@ if($vertretungStunden > 0)
 {
   echo '
     <tr style="background-color: #cccccc; padding:5px;">
-      <td colspan="3"><b>Vertretungen: </b></td>
+      <td colspan="3" style="text-align: left;"><b>Vertretungen: </b></td>
       <td></td>
       <td style="text-align: left;"><b>'.number_format($vertretungStunden/60, 2, ',', '').' h</b></td>
     </tr>';
@@ -115,10 +114,9 @@ if($vertretungStunden > 0)
 
 echo'
             <tr style="background-color: #cccccc; padding:5px;">
-                <td colspan="3"><b>Gesamtstunden: </b></td>
+                <td colspan="3" style="text-align: left;"><b>Gesamtstunden: </b></td>
                 <td></td>
                 <td style="text-align: left;"><b>'.number_format($gesamtStunden/60, 2, ',', '').' h</b></td>
             </tr>
-            </tfoot>
         </table>
 <br><br><br>';
