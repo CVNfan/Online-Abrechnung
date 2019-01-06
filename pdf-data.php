@@ -11,7 +11,7 @@ echo '
 <table cellpadding="5" cellspacing="0" style="width: 100%; ">
 
  <tr>
- <td style="font-size:1.3em; font-weight: bold;">
+ <td style="font-size:1.3em; font-weight: bold; text-align: left;">
 <br>
 Zusammenfassung:
 <br>
@@ -21,7 +21,7 @@ Zusammenfassung:
 
 <table cellpadding="5" cellspacing="0" style="width: 100%;" border="0">
  <tr style="background-color: #cccccc; padding:5px;">
- <td style="padding:5px;width:20%"><b>Datum</b></td>
+ <td style="padding:5px;"><b>Datum</b></td>
  <td style="text-align: center;"><b>Kurs</b></td>
  <td style="text-align: center;"><b>Dauer</b></td>
  </tr>';
@@ -87,16 +87,16 @@ Zusammenfassung:
     }
   }
 //HIER ZUENDE
-echo '
-<hr>';
+echo '<tfoot>';
 if(isset($sparten))
 {
   foreach($sparten as &$value)
   {
     $stundenzahl = ${$value.'Stunden'}/60;
     echo '
-      <tr>
+      <tr style="background-color: #cccccc; padding:5px;">
         <td colspan="3"><b>'.$value.'stunden: </b></td>
+        <td></td>
         <td style="text-align: left;"><b>'.number_format(${$value.'Stunden'}/60, 2, ',', '').' h</b></td>
       </tr>';
     $query = "INSERT INTO `Rechnungen` (`Vorname`, `Nachname`, `ID`, `Monat`,`Sparte`,`Anzahl`) VALUES ('$firstname', '$lastname', '$user[0]', 'piep', '$value','$stundenzahl');";
@@ -106,7 +106,7 @@ if(isset($sparten))
 if($vertretungStunden > 0)
 {
   echo '
-    <tr>
+    <tr style="background-color: #cccccc; padding:5px;">
       <td colspan="3"><b>Vertretungen: </b></td>
       <td></td>
       <td style="text-align: left;"><b>'.number_format($vertretungStunden/60, 2, ',', '').' h</b></td>
@@ -119,5 +119,6 @@ echo'
                 <td></td>
                 <td style="text-align: left;"><b>'.number_format($gesamtStunden/60, 2, ',', '').' h</b></td>
             </tr>
+            </tfoot>
         </table>
 <br><br><br>';
