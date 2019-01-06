@@ -9,13 +9,6 @@ $sparten = null;
 
 echo '
 <table cellpadding="5" cellspacing="0" style="width: 100%; ">
- <tr>
- <td>'.nl2br(trim($rechnungs_header)).'</td>
-    <td style="text-align: right">
-Datum: '.$rechnungs_datum.'<br>
-<br>
- </td>
- </tr>
 
  <tr>
  <td style="font-size:1.3em; font-weight: bold;">
