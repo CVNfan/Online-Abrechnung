@@ -8,6 +8,9 @@
       {
         text-align: center;
       }
+      tr{
+        width:100%;
+      }
       </style>
   </head>
 <?php
@@ -182,6 +185,7 @@ ini_set('display_startup_errors', 1);
         if (!mysqli_query($connection,$query)) die(mysqli_error($connection)."Befehl für gehaltenzahl nicht gültig");
         $row = mysqli_fetch_array($result);
         $gehaltenzahl = intval($row["gehaltenzahl"]);
+        unset($row);
         //console("gehaltenzahl $gehaltenzahl");
 
         if($is_feiertag || $is_ferientag)
@@ -194,14 +198,35 @@ ini_set('display_startup_errors', 1);
             $is_feiertag = false;
             $is_ferientag = false;
           }
+          unset($row);
         }
 
         //vgl Trainer- und Kurszahl
         if($gehaltenzahl < $trainerzahl && !$is_feiertag && !$is_ferientag) //wenn noch nicht alle eingetragen, Abrechnung
         {
           //Kurs in 'GehalteneKurse' eintragen
-          $query = "INSERT INTO `gehalteneKurse` (`Kursnummer`, `Kurstitel`, `Datum`, `KursleiterTats`) VALUES ('$value[4]', '$value[5]', '$value[0]', '$user[0]');";
+          $query = "SELECT `EintragsID`, `KursleiterTats1`, `KursleiterTats2`, `KursleiterTats3`, `KursleiterTats4` FROM `gehalteneKurse` WHERE Datum='$value[0]' AND Kursnummer='$value[4]'";
           $result = mysqli_query($connection,$query);
+          if($result)  $row = mysqli_fetch_array($result);
+          print_r($row);
+          print_r($row[0]);
+
+
+          if(isset($row[0]))
+          {
+            for($i = 0; $row[$i]!=''; $i++) $number = $i;
+            $kursleiter = 'KursleiterTats'.$number;
+            echo "kursleiter = $kursleiter";
+            $query = "UPDATE `gehalteneKurse` SET $kursleiter='$user[0]' WHERE EintragsID='$row[0]'";
+            echo $query;
+            $result = mysqli_query($connection,$query);
+
+          }
+          else
+          {
+            $query = "INSERT INTO `gehalteneKurse` (`Kursnummer`, `Kurstitel`, `Datum`, `KursleiterTats`) VALUES ('$value[4]', '$value[5]', '$value[0]', '$user[0]');";
+            $result = mysqli_query($connection,$query);
+          }
 
           //hinmalen der Kurse
           if($date == $value[0])
