@@ -56,7 +56,13 @@ ini_set('display_startup_errors', 1);
     {
       //sieht nach ob dieser Trainer bereits gehalten hat
       console("hat der trainer diesen kurs bereits eingetragen?");
-      $query = "SELECT `Kurstitel` FROM `gehalteneKurse` JOIN `User` ON gehalteneKurse.KursleiterTats = User.ID WHERE Datum='$value[0]' AND Vorname ='$user[1]' AND Nachname = '$user[2]' AND Kursnummer = '$value[4]'";
+      $query =
+      "SELECT `Kurstitel`
+      FROM `gehalteneKurse`
+      JOIN `User`
+      ON gehalteneKurse.KursleiterTats1 = User.ID AND gehalteneKurse.KursleiterTats2 = User.ID AND gehalteneKurse.KursleiterTats3 = User.ID AND gehalteneKurse.KursleiterTats4 = User.ID
+      WHERE Datum='$value[0]' AND Vorname ='$user[1]' AND Nachname = '$user[2]' AND Kursnummer = '$value[4]'
+      ";
       $result = mysqli_query($connection,$query);
       $row = mysqli_fetch_array($result);
       console("Kurstitel -> Datum $value[0]:".mysqli_error($connection));
@@ -179,12 +185,17 @@ ini_set('display_startup_errors', 1);
         //console("trainerzahl $trainerzahl");
 
         //Suche bereits gehaltene Kurse dieses Datums
-        $query = "SELECT COUNT(Kursnummer) AS gehaltenzahl FROM `gehalteneKurse` WHERE Datum='$value[0]' AND Kursnummer=$value[4]";
+        //DIESE ABFRAGE MUSS ANGEPASST WERDEN!!!
+        $query = "SELECT KursleiterTats1, KursleiterTats2, KursleiterTats3, KursleiterTats4 FROM `gehalteneKurse` WHERE Datum='$value[0]' AND Kursnummer=$value[4]";
 
         $result = mysqli_query($connection,$query);
         if (!mysqli_query($connection,$query)) die(mysqli_error($connection)."Befehl für gehaltenzahl nicht gültig");
         $row = mysqli_fetch_array($result);
-        $gehaltenzahl = intval($row["gehaltenzahl"]);
+        $gehaltenzahl = 0;
+        for($i = 0; $i < 4; $i++)
+        {
+          if($row[$i]!='') $gehaltenzahl++;
+        }
         unset($row);
         //console("gehaltenzahl $gehaltenzahl");
 
@@ -207,18 +218,19 @@ ini_set('display_startup_errors', 1);
           //Kurs in 'GehalteneKurse' eintragen
           $query = "SELECT `EintragsID`, `KursleiterTats1`, `KursleiterTats2`, `KursleiterTats3`, `KursleiterTats4` FROM `gehalteneKurse` WHERE Datum='$value[0]' AND Kursnummer='$value[4]'";
           $result = mysqli_query($connection,$query);
-          if($result)  $row = mysqli_fetch_array($result);
-          print_r($row);
-          print_r($row[0]);
+          echo mysqli_error($connection);
+          if(!is_bool($result))  $row = mysqli_fetch_array($result);
+          //print_r($row);
+          //print_r($row[0]);
 
-
+          $number = 1;
           if(isset($row[0]))
           {
-            for($i = 0; $row[$i]!=''; $i++) $number = $i;
+            for($i = 1; $row[$i]!=''; $i++) $number = $i;
             $kursleiter = 'KursleiterTats'.$number;
-            echo "kursleiter = $kursleiter";
+            echo "<br>kursleiter = $kursleiter";
             $query = "UPDATE `gehalteneKurse` SET $kursleiter='$user[0]' WHERE EintragsID='$row[0]'";
-            echo $query;
+            //echo $query;
             $result = mysqli_query($connection,$query);
 
           }

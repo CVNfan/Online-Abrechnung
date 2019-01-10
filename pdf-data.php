@@ -110,7 +110,7 @@ if($vertretungStunden > 0)
 }
 
 echo'
-            <tr style="background-color: #cccccc; padding:5px;">
+            <tr style="background-color: #cccccc; padding:5px; border: thin black;">
                 <td style="text-align: left;"><b>Gesamtstunden: </b></td>
                 <td></td>
                 <td><b>'.number_format($gesamtStunden/60, 2, ',', '').' h</b></td>
