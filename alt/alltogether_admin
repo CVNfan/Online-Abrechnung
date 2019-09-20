@@ -1,0 +1,111 @@
+<?php
+  error_reporting(E_ALL);
+
+  $mysqlhost = "rdbms.strato.de";
+  $mysqluser = "U3468070";
+  $mysqlpwd = "gNLNXnFvfphL8+9";
+  $dbname = "DB3468070";
+  $dbtable = "Kurse";
+
+  $connection = mysqli_connect($mysqlhost, $mysqluser, $mysqlpwd) or die("Verbindung zur Datenbank fehlgeschlagen.");
+  mysqli_set_charset($connection,'utf8');
+if($_POST)
+  {
+    $firstname = isset($_POST['firstname']) ? $_POST['firstname'] : "";
+    if (empty(trim($firstname))) die ("Vorname muss aufgefüllt werden.");
+
+    $lastname = isset($_POST['lastname']) ? $_POST['lastname'] : "";
+    if (empty(trim($lastname))) die ("Nachname muss aufgefüllt werden.");
+
+    if(isset($_POST["loeschen"]))
+    {
+        //löscht trainer
+        mysqli_select_db($connection,$dbname) or die("Fehler bei der Datenbanktabellenauswahl.");
+        $query = "SELECT ID FROM User WHERE Vorname = '$firstname' AND Nachname = '$lastname'";
+        $result = mysqli_query($connection,$query) or die (mysqli_error($connection));
+        $row = mysqli_fetch_array($result);
+        $userid = "$row[0]";
+        $query =
+        "UPDATE gehalteneKurse
+        SET TrainerTats = REPLACE(TrainerTats, ',$userid,', '')
+        WHERE TrainerTats LIKE '%,$userid,%'";
+        $result = mysqli_query($connection,$query) or die (mysqli_error($connection));
+    }
+
+
+
+    mysqli_select_db($connection,$dbname) or die("Fehler bei der Datenbanktabellenauswahl.");
+
+    $query = "SELECT ID FROM User WHERE Vorname = '$firstname' AND Nachname = '$lastname'";
+    $result = mysqli_query($connection,$query) or die (mysqli_error($connection));
+    $row = mysqli_fetch_array($result);
+    $userid = "$row[0]";
+    if($userid == "") die ("Kein entsprechender Nutzer gefunden");
+
+    $query = "SELECT gehalteneKurse.Kurstitel, gehalteneKurse.Kursnummer, Datum, Uhrzeit_Beginn, Uhrzeit_Ende, gehalteneKurse.Kursnummer
+              FROM `gehalteneKurse`
+              join Kurse
+              where
+              TrainerTats LIKE '%,$userid,%' and
+              gehalteneKurse.Kursnummer = Kurse.Kursnummer and
+              gehalteneKurse.Kurstitel = Kurse.Kurstitel
+              ORDER BY Datum, Uhrzeit_Beginn";
+    $result = mysqli_query($connection,$query) or die (mysqli_error($connection));
+    if($result===FALSE)
+    {
+      sleep(2);
+      die("Fehlerhaft.");
+    }
+    if($result)
+    {
+      $titel = null;
+      $hours = 0;
+      $hoursgesamt = 0;
+      echo "<h2>Eingetragene Kurse von $firstname $lastname:</h2>";
+      while ($row=mysqli_fetch_array($result))
+      {
+        $dateFormat = date("d.m.Y",strtotime($row[2]));
+
+        if($titel!=$dateFormat)
+        {//wenn neues Datum
+          if($hours != null)
+          { //wenns schon stunden gab
+            echo "<br>=>$hours Stunden<br><b>$dateFormat</b>"; $hours = 0; $titel=$dateFormat;
+          }
+          else
+          { //wenns der erste eintrag ist
+            $hours = 0; echo "<b>$dateFormat</b>"; $hours = 0; $titel=$dateFormat;
+          }
+        }
+        $row[3] = substr($row[3],0, 5);
+        $row[4] = substr($row[4],0, 5);
+        echo "<br>$row[3]-$row[4]Uhr: $row[0] - $row[1]";
+        $hours += (strtotime($row[4])-strtotime($row[3]))/3600;
+        $hoursgesamt += (strtotime($row[4])-strtotime($row[3]))/3600;
+      }
+      echo "<br>=>$hours Stunden"; $hours = null;
+      echo "<br><strong>Gehalten diesen Monat: $hoursgesamt Stunden</strong>";
+    }
+    else
+    {
+      echo "Abfrage Fehlerhaft";
+    }
+    //leeres löschen
+
+    $query = "DELETE FROM gehalteneKurse WHERE TrainerTats = ''";
+    $result = mysqli_query($connection,$query) or die (mysqli_error($connection));
+
+    echo "<hr><b>Ausstehend:</b>";
+    $query = "SELECT Sparte, Stundenzahl, Monat FROM Rechnungen WHERE Vorname = '$firstname' AND Nachname = '$lastname' ORDER BY Monat";
+    $result = mysqli_query($connection,$query) or die (mysqli_error($connection));
+    while ($row=mysqli_fetch_array($result))
+    {
+      echo "<br>Stunden in der Sparte $row[Sparte]: $row[Stundenzahl] ($row[Monat])";
+    }
+    echo "<br><input type='button' onclick='window.print();' value='Drucken' />";
+    echo "<form action='' method='post'>
+    <input type='hidden' name='firstname' value='$firstname' />
+    <input type='hidden' name='lastname' value='$lastname' />
+    <input type='submit' name='loeschen' value='Abrechnung'/>
+    </form>";
+  }

@@ -1,0 +1,395 @@
+<?php
+
+  ini_set('display_errors', 1);
+  ini_set('display_startup_errors', 1);
+  error_reporting(E_ALL);
+
+  $mysqlhost = "rdbms.strato.de";
+  $mysqluser = "U3468070";
+  $mysqlpwd = "gNLNXnFvfphL8+9";
+  $dbname = "DB3468070";
+  $dbtable = "Kurse";
+
+  $connection = mysqli_connect($mysqlhost, $mysqluser, $mysqlpwd) or die("Verbindung zur Datenbank fehlgeschlagen.");
+  mysqli_set_charset($connection,'utf8');
+
+function tage($monat, $jahr, $wochentag) {
+  $treffer=array();
+  $letzterTag=mktime(0,0,0,$monat+1,0,$jahr);
+  $tag=1;
+  do {
+    $zeitpunkt=mktime(0,0,0,$monat,$tag,$jahr);
+    if (date("N",$zeitpunkt)==$wochentag) {
+			if($tag<10) $tag = "0$tag";
+      $treffer[]="$tag";
+    }
+    $tag++;
+  } while ($zeitpunkt < $letzterTag);
+  return $treffer;
+}
+
+class LPLib_Feiertage_Connector
+{
+	const BASE_URL = 'https://feiertage-api.de/api/';
+
+	const LAND_BAYERN = 'BY';
+
+	private static $cache = array();
+	private static $itsInstance = null;
+
+	private function __construct(){}
+
+	public static function getInstance()
+	{
+		if(self::$itsInstance == null)
+			self::$itsInstance = new LPLib_Feiertage_Connector();
+
+		return self::$itsInstance;
+	}
+
+	public function getFeiertageVonLand($jahr,$land)
+		{
+			if(isset(self::$cache['c0-'.$jahr.$land]))
+				return self::$cache['c0-'.$jahr.$land];
+
+			$result = $this->_file_get_contents_t_curl(LPLib_Feiertage_Connector::BASE_URL.'?jahr='.$jahr.'&nur_land='.$land);
+			self::$cache['c0-'.$jahr.$land] = json_decode($result,true);
+
+			return self::$cache['c0-'.$jahr.$land];
+		}
+
+	public function  isFeiertagInLand($datum,$land)
+	{
+		$feiertage_land = $this->getFeiertageVonLand(date('Y',strtotime($datum)),$land);
+
+		foreach($feiertage_land as $feiertagsname => $feiertagsdatum)
+			if($feiertagsdatum['datum'] == date('Y-m-d',strtotime($datum)))
+				return true;
+
+		return false;
+	}
+
+	private function _file_get_contents_t_curl($url) {
+		$file = @file_get_contents($url);
+		if(!empty($file))
+			return $file;
+		else
+		{
+			$ch = curl_init();
+
+			curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
+			curl_setopt($ch, CURLOPT_HEADER, 0);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($ch, CURLOPT_URL, $url);
+			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+
+			$data = curl_exec($ch);
+			curl_close($ch);
+
+			return $data;
+		}
+
+		throw new Exception('Verbindung zur Feiertags-API war nicht moeglich.');
+	}
+}
+
+class LPLib_Ferien_Connector
+{
+  const BASE_URL = 'https://ferien-api.de/api/v1/holidays/BY';
+
+  const LAND_BAYERN = 'BY';
+
+  private static $cache = array();
+  private static $itsInstance = null;
+
+  private function __construct(){}
+
+  public static function getInstance()
+  {
+    if(self::$itsInstance == null)
+      self::$itsInstance = new LPLib_Ferien_Connector();
+
+    return self::$itsInstance;
+  }
+
+
+  public function getFerientage()
+    {
+      $result = $this->_file_get_contents_t_curl(LPLib_Ferien_Connector::BASE_URL);
+      self::$cache = json_decode($result,true);
+
+      return self::$cache;
+    }
+
+    private function _file_get_contents_t_curl($url) {
+  		$file = @file_get_contents($url);
+  		if(!empty($file))
+  			return $file;
+  		else
+  		{
+  			$ch = curl_init();
+
+  			curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
+  			curl_setopt($ch, CURLOPT_HEADER, 0);
+  			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  			curl_setopt($ch, CURLOPT_URL, $url);
+  			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+
+  			$data = curl_exec($ch);
+  			curl_close($ch);
+
+  			return $data;
+      }
+    }
+  }
+
+
+if($_POST)
+  {
+    mysqli_select_db($connection,$dbname) or die("Fehler bei der Datenbanktabellenauswahl.");
+
+    $month = isset($_POST['Monat']) ? $_POST['Monat'] : "";
+    if (empty(trim($month))) die ("Monat muss aufgefüllt werden.");
+
+    //$year = $_POST['Jahr'];
+    $year = isset($_POST['Jahr']) ? $_POST['Jahr'] : "";
+    if (empty(trim($year))) die ("Jahr muss aufgefüllt werden.");
+
+    //$firstname = $_POST['firstname'];
+    $firstname = isset($_POST['firstname']) ? $_POST['firstname'] : "";
+    if (empty(trim($firstname))) die ("Vorname muss aufgefüllt werden.");
+
+    //$lastname = $_POST['lastname'];
+    $lastname = isset($_POST['lastname']) ? $_POST['lastname'] : "";
+    if (empty(trim($lastname))) die ("Nachname muss aufgefüllt werden.");
+
+    //$userpw = $_POST['pw'];
+    $userpw = isset($_POST['pw']) ? $_POST['pw'] : "";
+    if (empty(trim($userpw))) die ("Passwort muss aufgefüllt werden.");
+
+    //Abfrage ob PW korrekt
+    $query = "SELECT ID, Vorname, Nachname, PLZ, Ort, Strasse, Hausnummer, SteuerID FROM `User` WHERE Vorname='$firstname' AND Nachname='$lastname' AND Passwort='$userpw'";
+    $result = mysqli_query($connection,$query) or die (mysqli_error($connection));
+    $row = mysqli_fetch_array($result);
+    if($row==FALSE)
+    {
+      sleep(2);
+      die("Keine Passwort-Nutzer-Übereinstimmung gefunden.");
+    }
+    for($i = 0; $i < 8; $i++)
+    {
+      $user[$i] = $row[$i];
+    }
+    $userid = $row[0];
+  }
+  else {
+    die("Fehler bei der Formularübermittlung. Probiere es doch nochmal.");
+  }
+  $query = "SELECT Kursnummer, Kurstitel, Uhrzeit_Beginn, Uhrzeit_Ende, Wochentag, Raum, Kategorie, Sparte FROM `Kurse` WHERE Trainer LIKE '%$userid%'";
+  $result = mysqli_query($connection,$query);
+  if (!mysqli_query($connection,$query)) die("Keine Passwort-Nutzer-Übereinstimmung gefunden. Bitte überprüfe deine Angaben.");
+  $num = 0;
+
+  while($row = mysqli_fetch_array($result))
+     {
+        for($i=0;$i<8; $i++)
+        {
+          ${'data' . $num . "_" . $i} = $row[$i];
+        }
+        $num++;
+     }
+
+    if($num != mysqli_num_rows($result)) die("error: no clear rows");
+    for($i=0;$i<$num;$i++)
+    {
+      ${'kursdata'.$i} =  array(${'data'.$i.'_0'},//ID
+                                ${'data'.$i.'_1'},//Kursname
+                                ${'data'.$i.'_2'},//Beginn
+                                ${'data'.$i.'_3'},//Ende
+                                ${'data'.$i.'_4'},//Wochentag
+                                ${'data'.$i.'_5'},//Raum
+                                ${'data'.$i.'_6'},//Kategorie
+                                ${'data'.$i.'_7'});//Sparte
+    }
+    for($i=0;$i<$num;$i++)
+    {
+      switch(${'kursdata'.$i}[4])
+      {
+        case "Montag":     ${'kursdata'.$i}[8] = "1"; break;
+        case "Dienstag":   ${'kursdata'.$i}[8] = "2"; break;
+        case "Mittwoch":   ${'kursdata'.$i}[8] = "3"; break;
+        case "Donnerstag": ${'kursdata'.$i}[8] = "4"; break;
+        case "Freitag":    ${'kursdata'.$i}[8] = "5"; break;
+        case "Samstag":    ${'kursdata'.$i}[8] = "6"; break;
+        case "Sonntag":    ${'kursdata'.$i}[8] = "7"; break;
+      }
+    }
+    switch($month)
+    {
+      case 'Januar':    $monthInt = '01'; break;
+      case 'Februar':   $monthInt = '02'; break;
+      case 'März':      $monthInt = '03'; break;
+      case 'April':     $monthInt = '04'; break;
+      case 'Mai':       $monthInt = '05'; break;
+      case 'Juni':      $monthInt = '06'; break;
+      case 'Juli':      $monthInt = '07'; break;
+      case 'August':    $monthInt = '08'; break;
+      case 'September': $monthInt = '09'; break;
+      case 'Oktober':   $monthInt = '10'; break;
+      case 'November':  $monthInt = '11'; break;
+      case 'Dezember':  $monthInt = '12'; break;
+    }
+    for($i=0;$i<$num;$i++)
+    {
+      $day = ${'kursdata'.$i}[8];
+      $wochentag = ${'kursdata'.$i}[4];
+      ${'kurse'.$i} = tage($monthInt,$year,$day);
+      $kursid = ${'kursdata'.$i}[0];
+      $kursname = ${'kursdata'.$i}[1];
+      $kursbeginn = substr(${'kursdata'.$i}[2],0,5);
+      $kursende = substr(${'kursdata'.$i}[3],0,5);
+      $zeitaufwand = (strtotime($kursende)-strtotime($kursbeginn))/60;
+      $sparte = ${'kursdata'.$i}[7];
+      //erzeugt den zu sendenden Kurs
+      foreach(${'kurse'.$i} as &$value) $value = array("$value.$monthInt.$year","$wochentag","$kursbeginn","$kursende","$kursid","$kursname","$zeitaufwand","$sparte");
+    }
+    $alldays[] = '';
+    for($i=0;isset(${'kurse'.$i});$i++)
+    {
+      $alldays = array_merge(${'kurse'.$i},$alldays);
+    }
+    sort($alldays);
+    unset($alldays[0]);
+    $date = null;
+echo "<h2>Willkommen bei unserer Online-Abrechnung!</h2>";
+echo "für $firstname $lastname.";
+echo "<br>Bitte wähle alle Kurse aus, die du diesen Monat gehalten hast.";
+//printed die (hoffentlich) gehaltenen Stunden
+    echo "<br>Deine gehaltenen Stunden für $month $year:<form action='/KurseSend/' method='post'>";
+    $connectorFei = LPLib_Feiertage_Connector::getInstance();
+    $connectorFer = LPLib_Ferien_Connector::getInstance();
+    $is_ferientag = $connectorFer->getFerientage();
+    foreach($is_ferientag as &$value)
+    {//sucht Ferien mit Beginn oder Ende in diesem Monat
+      if( ( date("m",strtotime($value['start']))=="$monthInt" && date("Y",strtotime($value['start']))=="$year" ) || ( date("m",strtotime($value['start']))=="$monthInt" && date("Y",strtotime($value['start']))=="$year") )
+      {
+        $start = strtotime($value['start']);
+        $end = strtotime($value['end']);
+      //AUSGABE DER FERIEN
+        $startRead = date('Y-m-d', $start);
+        $endRead = date('Y-m-d', $end);
+        $startReadView = date('d.m.Y', $start);
+        $endReadView = date('d.m.Y', $end);
+        echo "<br>Diesen Monat sind Ferien vom $startReadView-$endReadView";
+      }
+    }
+
+    foreach($alldays as &$value)
+    {
+      $is_feiertag = $connectorFei->isFeiertagInLand($value[0], LPLib_Feiertage_Connector::LAND_BAYERN);
+      $outputvalue = implode('#%#',$value);
+      $dateInt = strtotime($value[0]);
+      if($date!=$value[0])
+      {
+        echo "<br><b>$value[1], den $value[0]:</b>";
+        if($is_feiertag && $date != $value[0]) echo " (Feiertag)";
+        else if($start<=$dateInt && $dateInt<=$end) echo " (Ferien)";
+      }
+      $query = "SELECT `Trainerzahl` FROM `Kurse` WHERE Kursnummer='$value[4]' AND Kurstitel='$value[5]'";
+      $result = mysqli_query($connection,$query);
+      $row = mysqli_fetch_array($result);
+      $trainerzahl = intval($row[0]);
+
+      //Suche bereits gehaltene Kurse dieses Datums
+      $dateFormat = date("Y-m-d",strtotime($value[0]));
+      $query = "SELECT TrainerTats FROM `gehalteneKurse` WHERE Datum='$dateFormat' AND Kursnummer='$value[4]' AND Kurstitel='$value[5]'";
+
+      $result = mysqli_query($connection,$query);
+      $row = mysqli_fetch_array($result);
+      $gehaltenzahl = strlen($row[0])/5;
+
+      //unterscheidung der stunden
+      $dateFormat = date("Y-m-d",strtotime($value[0]));
+      $query =
+      "SELECT `Kurstitel`
+      FROM `gehalteneKurse`
+      WHERE gehalteneKurse.TrainerTats LIKE '%$userid%'
+      AND Datum='$dateFormat' AND Kursnummer = '$value[4]' AND Kurstitel='$value[5]'";
+      $result = mysqli_query($connection,$query);
+      $row = mysqli_fetch_array($result);
+      if($row!="")
+      {
+        echo "<br><input type='checkbox' name='gehalteneKurse[]' value='$outputvalue' disabled='true'>$value[2]-$value[3]Uhr - $value[4] - $value[5] (eingetragen!)";
+      }
+      else if($gehaltenzahl==$trainerzahl)
+      {
+        echo "<br><input type='checkbox' name='gehalteneKurse[]' value='$outputvalue' disabled='true'>$value[2]-$value[3]Uhr - $value[4] - $value[5] (gehalten!)";
+      }
+      else if($is_feiertag || ($start<=$dateInt && $dateInt<=$end))
+      {
+        $query = "SELECT Kategorie FROM `Kurse` WHERE Kursnummer='$value[4]' AND Kurstitel='$value[5]'";
+        $result = mysqli_query($connection,$query);
+        $row = mysqli_fetch_array($result);
+        $is_ferien = strpos($row[0],'Ferienkurs'); //ist der Kurs als Ferienkurs ausgeschrieben?
+        if($is_ferien === false)
+        {
+          echo "<br><input type='checkbox' name='gehalteneKurse[]' value='$outputvalue' disabled='true'>$value[2]-$value[3]Uhr - $value[4] - $value[5]";
+        }
+        else
+        {
+          $dateFormat = date("Y-m-d",strtotime($value[0]));
+          $query =
+          "SELECT `Kurstitel`
+          FROM `gehalteneKurse`
+          WHERE gehalteneKurse.TrainerTats LIKE '%$userid%'
+          AND Datum='$dateFormat' AND Kursnummer = '$value[4]' AND Kurstitel='$value[5]'";
+          $result = mysqli_query($connection,$query);
+          $row = mysqli_fetch_array($result);
+          if($row!="")
+          {
+            echo "<br><input type='checkbox' name='gehalteneKurse[]' value='$outputvalue' disabled='true'>$value[2]-$value[3]Uhr - $value[4] - $value[5] (eingetragen!)";
+          }
+          else
+          {
+            echo "<br><input type='checkbox' name='gehalteneKurse[]' value='$outputvalue'>$value[2]-$value[3]Uhr - $value[4] - $value[5]";
+          }
+        }
+      }
+      else
+      {
+        echo "<br><input type='checkbox' name='gehalteneKurse[]' value='$outputvalue'>$value[2]-$value[3]Uhr - $value[4] - $value[5]";
+      }
+      $date = $value[0];
+    }
+    $useroutput = implode('#%#',$user);
+    echo "<input type='hidden' name='User' value='$useroutput'>";
+    echo "<br><br>Deine angezeigten Stunden stimmen nicht? Bitte melde dich bei mir! <a href='mailto:johannes@circusverein.de&subject=Abrechnung'>Jonny</a>";
+    echo "<br><br>Stunden an Feier-/Ferientagen können von <a href='mailto:heidi@circusverein.de?cc=johannes@circusverein.de&subject=Abrechnung'>Heidi</a> freigegeben werden.";
+    echo "<br><div>Hier kannst du vertretene Stunden angeben</div>";
+    echo "<a href='#' id='filldetails' onclick='addFields()'>Vertretungsstunde eintragen</a>";
+    echo "<div id='container'></div>";
+    echo "<a href='#' id='deletedetails' onclick='deleteFields()'>Vertretungsstunden löschen</a>";
+
+    echo "<br><br><button type='submit'>Abschicken</button></form>";
+
+    $query =
+    "SELECT gehalteneKurse.Kurstitel, Datum, Uhrzeit_Beginn
+    From gehalteneKurse
+    join Kurse
+    ON Kurse.Kursnummer=gehalteneKurse.Kursnummer And gehalteneKurse.Kurstitel=Kurse.Kurstitel
+    WHERE Kurse.Trainer NOT LIKE '%$userid%'
+    AND gehalteneKurse.TrainerTats LIKE '%$userid%'
+    order by Datum, Uhrzeit_Beginn";
+    $result = mysqli_query($connection, $query);
+    if($result)
+    {
+      $titel = null;
+      echo "<h2>Vertretungen:</h2>";
+      while ($row=mysqli_fetch_array($result))
+      {
+        $dateFormat = date("d.m.Y",strtotime($row[1]));
+        if($titel!=$dateFormat) echo "<br><b>$dateFormat</b>"; $titel=$dateFormat;
+        echo "<br>$row[0]";
+      }
+    }
+    mysqli_close($connection);

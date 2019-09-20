@@ -1,0 +1,113 @@
+﻿ID;Vorname;Nachname;Passwort;Telefon;Mobil;Email;PLZ;Ort;Strasse;Hausnummer;SteuerID
+001;Johannes;Aures;r00t;499188703011;17645540708;johannes@circusverein.de;92353;Postbauer-Heng;Kornweg;3;69140773858
+002;Domenik;Radeck;w00p;9181290380;;domi@circusverein.de;92318;Neumarkt;Weinbergerstr.;58;54066813970
+003;Heidi;Radeck;artic0;9181290380;;heidi@circusverein.de;92318;Neumarkt;Weinbergerstr.;58;89022736147
+004;Alexander;Radeck;circuus;9181290380;;alex@circusverein.de;92318;Neumarkt;Weinbergerstr.;58;92091835741
+005;Jannik;Radeck;cFAUn;9181290380;;zauberjannik@gmx.de;92318;Neumarkt;Weinbergerstr.;58;97490812350
+006;Bastian;Jordan;LHQIiZzE;;;bastian.jordan93@gmail.com;92318;Neumarkt;Johann-Mois-Ring ;88;74099823155
+007;Christoph;Hage-Lopez;dnYYIETG;;17631471925;christoph-lopez@web.de;90403;Nürnberg;Tetzelgasse ;15;93614768506
+008;Ulrike;Wechselberger;DZtCiLNw;499181698285;15128085596;;92318;Neumarkt;Mussinanstr ;121;59022834171
+009;Beate;Müller;bFFAoMpW;;;beate.horst.mueller@web.de;92318;Woffenbach;Tyrolsberger Str.;16a;75033691425
+010;Ute;Jordan;TmXjOcwl;;;jordan.reges@gmx.de;92318;Neumarkt;Johann-Mois-Ring ;88;0
+011;Beatrice;Deinhart;wAizCRtU;;;;0;;;0;0
+012;Aline;Suarez Llerena;XiyrAUve;;;aline4181@hotmail.com;92318;Neumarkt;Holzheimer Hauptstr. ;24;96100874356
+013;Ilona;Rupp;Acr0FuN;9181466611;15116667641;johannrupp.rupp8@googlemail.com;92318;Neumarkt;Wilhelm-Busch-Str. ;13b;94088652311
+014;Noor;Hena;vqtBtAmb;;;noortabeahena@yahoo.de;90403;Nürnberg;Tetzelgasse ;15;0
+015;Michael;Bauer;ONgvfEsC;189407474;1608500470;Michael.Bauer@swneumarkt.de;92348;Berg;Konrad-Fuchs-Str. ;6;42379310653
+016;Patrick;Bauer;jNdhhenr;189407474;15155546826;bauer_pa@gmx.de;92348;Berg;Konrad-Fuchs-Str. ;6;69178120540
+017;Katrin;Stastny;USWVkkNS;;1754131344;stastnys@gmx.de;92318;Neumarkt;;0;52501468737
+018;Silvia;Kontny-Ataholo;AhdLogIS;91818833644;;silvia.kontny@gmx.de;92318;Neumarkt;Anzengruberstr. ;16;95261038429
+019;Yadil;Suarez Llerena;cpocrWZu;;;ysuarez.cu@gmail.com;92318;Neumarkt;Holzheimer Hauptstr. ;24;0
+020;Bärbel;Wechselberger;vXhjeXZY;49918122811;1705800588;baerbel@artico.de;92318;Neumarkt;Mussinanstr ;121;54089872630
+021;Maria Thiresia;Zempeki;xpYMPveH;4917684671438;17684671438;zempekimt@gmail.com;90489;Nürnberg;Emilienstraße ;10;23829260085
+022;Susanne;Metzig;iWTFEnOc;9183950135;1728923276;smetzig@gmx.de;90559;Burgthann;Industriestr. ;8a;52870918433
+023;Rebecca;Popp;fnNMPrQt;;17680143130;popprebecca@gmail.com;91227;Leinburg;Bergstr. ;55;22125911331
+024;Gisela;Hauser;XdziMZap;;;berg-hauser@t-online.de;0;;;0;0
+025;Veronika;Kliem;BxICrBQQ;91815124151;;v.geissler-design@t-online.de;92318;Neumarkt;Obere Marktstraße ;38;86493782505
+026;Adrian;Fellner;GjzfKTsi;;17684850668;adifell@arcor.de;92360;Mühlhausen;Am Zwieberg ;57;83926415401
+027;Natalie;Thumann;gLlewFEy;491736923818;;natalie.thumann@gmail.com;0;;;0;0
+028;Carolin;Botzenhart;LleHMpWX;491798399531;1798399531;caro.bo@web.de;92318;Neumarkt;Sachsenstr. ;14;85021267340
+029;Larissa;Riedel;ZAnfKpjZ;;1714762795;larissariedel@web.de;92360;Mühlhausen;Kurt-Fischer-Straße ;6;74088531265
+030;Dominik;Lorenz;piQHJInL;95754802238;;dominik.lorenz06081999@web.de;92353;Postbauer-Heng;Berngauer Weg ;20a;69150447835
+031;Karola;Ach;CvtARuRR;49918132815;1755573171;ach-karola@arcor.de;92318;Neumarkt;Wülfertstr. ;57;74066913288
+032;Markus;Thom;VWaCXHCE;491604791950;;markus.thom@yahoo.com;0;;;0;0
+033;Lea;Englmann;PAgXUUtS;918141325;15756643585;englmann@online.de;92318;Neumarkt;Raiffeisenstr. ;5;46055872938
+034;Lena;Faschingbauer;tCYGLRxy;9189409472;;anja.faschingbauer@gmx.de;92348;Berg Großwiesenhof;Josef-von-Lehmeier-Str. ;5;
+035;Anna-Lena;Fersch;VUKOBgon;;;schlagala@gmx.de;92318;Neumarkt;Schloßstr. ;18;0
+036;Laura;Enzberger;LKQBNNdY;;;lauraenzberger@gmail.com;92348;Berg;Haslach;29;85001326972
+037;Katrin;Koller;AqFosJua;8464601037;15150606080;cutline-kk@web.de;92345;Dietfurt;Im Sägfeld ;2;0
+038;Amelie;Wechselberger;QpWNfhNc;;15164910442;baerbel@artico.de;92318;Neumarkt;Mussinanstr ;121;95082873646
+039;Lucia;Wittmann;oHitrMNv;;;l.wittmann@mnet-mail.de;0;;;0;0
+040;Melissa;Ach;SRLWlqbN;918132815;1773000103;ach-karola@arcor.de;92318;Neumarkt;Wülfertstr. ;57;47541938621
+041;Ronja;Rosebrock;bVCONXoB;9181440915;;rosebrock@t-online.de;92318;Neumarkt;Nelkenstr.;16;0
+042;Tringa;Rushiti;IxxIxSLe;;;cani.r@hotmail.de;92283;Lauterhofen;Keltenring ;20;0
+043;Eva;Bierschneider;DBzmoyIp;9181462360;15254347226;eva.bierschneider04@gmail.com;92318;Neumarkt;Sachsenstraße ;15;92093184578
+044;Elena;Borchert;aiYklxRA;918145880;1627267454;elenabo@online.de;92318;Neumarkt;Schweningerstr.  ;31b;23534000421
+045;Lillian;Eichenseher;JOvLrtBu;9185922990;;lilli.eichenseher@gmail.com;92360;Sulzbürg;Vorderer Berg ;6;72396501349
+046;Jana;Müller;oIMYOTCi;9183403121;;mueller-hagenstr@t-online.de;90559;Unterferrieden-Burgth.;Hagenstr.;2;69280715428
+047;Simon;Aures;YRmJHykR;9188703011;;bernd.aures@gmx.de;92353;Postbauer-Heng;Kornweg;3;82140665590
+048;Tamara;Aures;veGRXeTT;9188703011;;bernd.aures@gmx.de;92353;Postbauer-Heng;Kornweg;3;72150446838
+049;Enis;Haliti;bVpzZswn;;15758493238;enishaliti@web.de;92318;Neumarkt;Deininger Weg ;48a;46033721854
+050;Emily;Böhm;UrgExihw;;15127520409;emilyboehm@gmx.de;90602;Pyrbaum;Neumarkterstr. ;52;69542175807
+051;Jana;Rupp;oUqjFytw;9181466611;;johannrupp.rupp8@googlemail.com;92318;Neumarkt;Wilhelm-Busch-Str. ;13b;57451082966
+052;Stephanie;Fellner;OohVruvY;;16097757030;Fellner.Stephanie@web.de;92360;Mühlhausen;Am Zwieberg ;57;52160449835
+053;Ellen;Vieracker;IqAFrdnD;;1758747331;ellvrckr@googlemail.com;92318;Berg;Schweppermannstr.;8;72468493057
+054;Maja;Zuparic;HKAMJXls;9179963263;;;92342;Freystadt / Realsmühle;Am Rothbüchel ;8;0
+055;Pascal;Milde;hfPJEOMl;;1776409027;pascal.milde@web.de;92318;Neumarkt;Paul-Pfleiderer-Str. ;39;0
+056;Babette;Rackl;tMbagrZb;846227334;;n-rackl@t-online.de;92334;Berching / Sollngriesbach;Thalweg ;13;0
+057;Tobias;Bartl;NTFHAOxk;;17661737086;webmaster@salsa-neumarkt.de;92353;Postbauer-Heng;Am Schwall                                        ;31;23531601874
+058;Susanne;Kirsch;ltZUDBeu;;15786558258;susanne.kirsch92@gmx.de;92318;Neumarkt;Friedenstr.;7a;0
+059;Hannah;Abt;IeoYWABH;;1753604992;scheibl.manuela@gmx.de;92348;Berg;Josef-von-Lehmeier-Str.;10;85031367945
+060;Alina;Balek;VMVDTChT;;15221939144;alinabalek@web.de;92353;Postbauer-Heng;Hauptstr;22;79150224862
+061;Andreas;Batzner;kkfcUBQb;;15231084974;Andreas@die-batzners.de;92318;Neumarkt;Marienbaderstr.;8;56044871326
+062;Nina;Batzner;ckJXCGqy;;15233744802;nina@die-batzners.de;92318;Neumarkt;Marienbaderstr.;8;42043156780
+064;Patricia;Behnke;gHeRFqmS;;;patricia.behnke2009@gmail.com;0;;;;
+065;Hannes;Bierschneider;UDDgJabp;9181462360;15254347436;bier.hannes02@gmail.com;92318;Neumarkt;Sachsenstraße ;15;94061672359
+066;Amelie;Braun;wLJlVccb;;15142475946;ameliebraun99@gmail.com;92318;Neumarkt;Schönmühlweg;7;94055731628
+067;Armin;Cortez;JBkUoGLv;;;terrasalsa@gmail.com;0;;;;
+068;Sabrina;Degenhard;jeqPIHwI;;;sabbi.97@web.de;92318;Neumarkt;Holzheimer Hauptstr. ;4c;97490683211
+069;Paul;Deinzer;uuHxUpTL;;;paul.deinzer@hotmail.de;0;;;;
+070;Moritz;Dietrich;RMQZaPqQ;;1739953910;mori.dietrich@gmail.com;92318;Neumarkt;Dientzenhofer ;2;23536500936
+071;Laura;Eckstein;EXuICSUj;91892850004;;as.eckstein@gmx.de;92348;Berg;Bruckstr. ;6;
+072;Marie;Enzberger;USKvpnrA;;;;92348;Berg;Haslach;29;85220349672
+073;Heike;Enzberger;WiuwtDPi;;;heike.enzberger@circusverein.de;92348;Berg;Haslach;29;
+074;Luana;Ernst;ZjaaSsqH;;1714178545;matteosstore@aol.com;90518;Altdorf;Gnadenbergerstr. ;13a;56330271988
+075;Arnold;Fischer;zrYfHBoK;;17684850668;arnold.fischer@yahoo.de;92318;Neumarkt;Pöllinger Hauptstr. ;40b;64801956232
+076;Vanessa;Fügl;xiFRDOQc;;;s.fuegl@freenet.de;92348;Berg;Am Mühlbach;5;92658613406
+077;Johanna;Haberler;bIFUEfOk;;;johanna.haberler@gmx.de;92361;Berngau;Reichertshofer Str.;7;72106638495
+078;Stephan ;Hage-Lopez;UkKMAXTs;;;stephan.lunazul+terrasalsa@gmail.com;0;;;;
+079;Leonie;Hagspiel;YboUVycZ;9188309922;;thomas.hagspiel@gmx.de;92353;Postbauer-Heng;Berngauer Weg ;23;
+080;Lisa;Härtl;nROqLqUY;;;;0;;;;
+081;Stefan ;Heyn;oAwuMmWY;;;SHeyn1@gmx.de;0;;;;
+082;Lea;Hierl;fwOuPaGT;;;l.hierl@tr-plast.eu;92318;Pölling;Marienbader Str.;14;
+083;Viktoria;Hofmann;NNvJLmvp;;;;0;;;;
+084;Franziska;Homa;MrPcIjmD;;;homa_franziska@gmx.de;0;;;;
+085;Evelyn ;Jobst;RDSozTsA;;;;92318;Neumarkt;Am Stocken;12;45081823963
+086;Felix;Jordan;KhETKwsK;;;fjordan.elix@gmail.com;92318;Neumarkt;Johann-Mois-Ring ;88;
+087;Julia;Kirzinger;jTkNpfkt;;;julia.kirzinger@gmx.de;92367;Pilsach;Kapellenstr;7;
+088;Mona;Lazarus;ajMUvJuS;;;mona.lazarus@web.de;92318;Neumarkt;Mussinanstraße;143;45981832765
+089;David ;Lazarus;xdVOYrXC;;;;0;;;;
+090;Dominik;Legner;piSfGjVQ;;;domleg2012@gmx.de;92353;Postbauer-Heng;Bussardweg 12;;62159334876
+091;Christian;Meier;vcvKNMvL;;;meiestro@gmx.net;0;;;;74055632915
+092;Marco;Meier;MikQwxCN;;;marco.M94@gmx.net;0;;;;
+093;Tina;Meier ;nrtGWSRl;;;tina.meier.mt@t-online.de;92361;Berngau; Birkenstraße;22;93201164780
+094;Julian;Müller;cmvnILeG;;;julian.mueller.cvn@gmail.com;92318;Woffenbach;Tyrolsberger Str.;16a;54077923167
+095;Laura;Müller;EyYwEHoA;;;laura.mueller.og@googlemail.com;92318;Woffenbach;Tyrolsberger Str.;16a;52051893676
+096;Max;Müller;KTslsFfL;;;m.mueller.311@gmail.com;0;;;;
+097;Vinzenz;Nießlbeck;qplyEboC;;;norbert.nießlbeck@online.de;92348;Berg;Erlenweg;7;42897813508
+098;Viktor;Paris;dsrEeFLf;;;viktor@lesparis.de;92361;Röckersbühl;Am Brückl;11;72909354686
+099;Sophia;Pröbster;ECZdwbsY;;;sophia.proepster@gmx.de;0;;;;
+100;Manuela;Rackl;aoYzmXQb;9185903030;;racklp@t-online.de;92360;Mühlhausen;Ellmannsdorf ;7;73286591247
+101;Regina;Raspel;owiHIkwx;;;Raspelregina@web.de;0;;;;
+102;Lydia;Reif;GxTIkPdg;91897182;;lydi.reif@web.de;92348;Berg;Hausheimer Str. ;21;
+103;Tanja;Reif;HMSKznjj;;;tanne.reif@web.de;0;;;;
+104;Daria;Rupp;VTGetEBy;9181466611;;johannrupp.rupp8@googlemail.com;92318;Neumarkt;Wilhelm-Busch-Str. ;13b;95061672834
+105;Vera;Schäftlmayer;tfijHgEE;;;vera.schaeftlmayer@gmx.de;0;;;;
+106;Michaela;Schriml ;pMQjQXsK;;;michaela_schriml@yahoo.de;0;;;;
+107;Paul;Straubmeier;VQWfhZSl;;;paul.franz03@web.de;92348;Berg;Peter-und-Paul-Str.;5;52867813906
+108;Samuel;Straubmeier;epZDuiMP;;;sammy.9@web.de;92348;Berg;Peter-und-Paul-Str.;5;92678613049
+109;Jana;Thoma;VsUJiiCW;;;jana-t-1996@web.de;93053;Regensburg;Elferstr.;4;71946372050
+110;Konstantin;Winter;LhHBTiGh;;;Konstantin.Winter@gmx.net;92318;Neumarkt;Eichendorffstr.;26d;84099617235
+111;Petra;Wolfsberger;UARVUhAU;;;rwolfsberger@gmx.de;92360;Mühlhausen;Georg-Heller-Str. ;20;82937765141
+112;Chiara;Zeußel;xTLUqEDS;;19233625545;chiara.zeussel@gmail.com;92348;Berg;Wiesenstr. ;19;52378314906
+113;Annemarie;Aures;mEdjidhS;499188703011;17645540808;bernd.aures@gmx.de;92353;Postbauer-Heng;Kornweg;3;49150773866

@@ -173,7 +173,7 @@ include("ferientage.php");
       $kursende = substr(${'kursdata'.$i}[3],0,5);
       $zeitaufwand = (strtotime($kursende)-strtotime($kursbeginn))/60;
       $sparte = ${'kursdata'.$i}[7];
-      //echo $sparte;
+      echo $sparte;
       //erzeugt den zu sendenden Kurs
       foreach(${'kurse'.$i} as &$value) $value = array("$value.$monthInt.$year","$wochentag","$kursbeginn","$kursende","$kursid","$kursname","$zeitaufwand","$sparte");
     }

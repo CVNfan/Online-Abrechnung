@@ -1,0 +1,149 @@
+﻿Kursnummer;Kurstitel;Uhrzeit_Beginn;Uhrzeit_Ende;Wochentag;Raum;Kursleiter1;Kursleiter2;Kursleiter3;Kursleiter4;Kategorie;Beschreibung;Sparte;Trainerzahl
+0;Reha;17:45:00;18:30:00;Dienstag;ARTICO 2er;15;NULL;NULL;NULL;;;Fitness und Gesundheit;1
+0;Reha;10:00:00;10:45:00;Donnerstag;ARTICO 2er;17;NULL;NULL;NULL;Ferienkurs;;Fitness und Gesundheit;1
+0;Reha-Sport;10:00:00;10:45:00;Mittwoch;ARTICO 1er;24;NULL;NULL;NULL;;;Fitness und Gesundheit;1
+0;Rückbildung1;09:15:00;10:15:00;Mittwoch;ARTICO 4er;10;NULL;NULL;NULL;;;Fitness und Gesundheit;1
+0;RückenFit;18:30:00;19:30:00;Donnerstag;ARTICO 3er;10;NULL;NULL;NULL;;;Fitness und Gesundheit;1
+0;Rüdiger;14:00:00;14:45:00;Montag;ARTICO 2er;NULL;NULL;NULL;NULL;;;;0
+0;SVE-Tanz;14:15:00;15:15:00;Mittwoch;Sonderpädagogisches Förderzentrum;20;NULL;NULL;NULL;;;Projekt;1
+0;SVE-Turnen;13:15:00;14:45:00;Mittwoch;ARTICO 1er;1;NULL;NULL;NULL;;;Projekt;1
+0;Tanzen Einsteiger;16:30:00;17:30:00;Sonntag;ARTICO 1er;20;55;NULL;NULL;;;Gesellschaftstanz;2
+0;aktiver Rücken;19:30:00;20:30:00;Donnerstag;ARTICO 3er;10;NULL;NULL;NULL;;;Fitness und Gesundheit;1
+1;Pilates;08:30:00;09:30:00;Dienstag;ARTICO 1er;3;NULL;NULL;NULL;;;Fitness und Gesundheit;1
+2;Ballett Advanced;17:00:00;19:00:00;Mittwoch;ARTICO 4er;12;NULL;NULL;NULL;;;Ballett;1
+3;Wirbelsäule;09:00:00;10:00:00;Donnerstag;ARTICO 1er;8;NULL;NULL;NULL;;;Fitness und Gesundheit;1
+4;Artistik für Erwachsene;20:30:00;21:30:00;Donnerstag;ARTICO 3er;5;NULL;NULL;NULL;;;Circus;1
+5;Circusminis;15:45:00;16:30:00;Montag;ARTICO 1er;9;36;35;NULL;;;Circus;3
+6;Circusjuniors Freystadt;17:00:00;18:00:00;Donnerstag;Freystadt;29;54;NULL;NULL;;;Circus;2
+7;Einrad Anfänger;16:45:00;17:30:00;Donnerstag;ARTICO 5er;4;NULL;NULL;NULL;;;Circus;1
+8;Beckenboden;19:00:00;20:00:00;Montag;ARTICO 4er;10;NULL;NULL;NULL;;;Fitness und Gesundheit;1
+9;Turngarten;10:15:00;11:00:00;Montag;ARTICO 1er;9;NULL;NULL;NULL;;;Circus;1
+10;RückenReha;18:15:00;19:00:00;Donnerstag;ARTICO 1er;15;NULL;NULL;NULL;;;Fitness und Gesundheit;1
+11;Ballett Arabesque;17:00:00;18:00:00;Mittwoch;ARTICO 2er;14;NULL;NULL;NULL;;;Ballett;1
+12;Circusteens;16:00:00;17:00:00;Donnerstag;ARTICO 2er;3;50;NULL;NULL;;;Circus;2
+13;Circusteens;16:30:00;17:30:00;Dienstag;ARTICO 1er;9;40;NULL;NULL;;;Circus;2
+14;Reha;19:00:00;19:45:00;Montag;ARTICO 3er;37;NULL;NULL;NULL;;;Fitness und Gesundheit;1
+15;Pilates;18:30:00;19:30:00;Mittwoch;ARTICO 1er;3;NULL;NULL;NULL;;;Fitness und Gesundheit;1
+17;Circussternchen Berching;15:45:00;16:30:00;Mittwoch;Berching;5;48;NULL;NULL;;;Circus;2
+18;Salsa LA Advanced;20:30:00;22:00:00;Mittwoch;ARTICO 1er;14;7;NULL;NULL;;;Salsa Neumarkt;2
+19;Kindertanzclub Juniors;17:30:00;18:30:00;Dienstag;ARTICO 1er;20;NULL;NULL;NULL;;;Gesellschaftstanz;1
+20;Circusjuniors Freystadt;16:00:00;17:00:00;Donnerstag;Freystadt;29;54;NULL;NULL;;;Circus;2
+21;HipHop Kids;15:00:00;16:00:00;Mittwoch;ARTICO 5er;7;NULL;NULL;NULL;;;Hip Hop;1
+22;Ballett Spitze;19:30:00;20:00:00;Donnerstag;ARTICO 4er;19;NULL;NULL;NULL;;;Ballett;1
+23;Circusteens;17:15:00;18:15:00;Mittwoch;ARTICO 3er;13;45;NULL;NULL;;;Circus;2
+24;HipHop Juniors;16:00:00;17:00:00;Mittwoch;ARTICO 5er;7;NULL;NULL;NULL;;;Hip Hop;1
+26;HipHop Fortgeschritten;17:00:00;18:00:00;Mittwoch;ARTICO 5er;7;NULL;NULL;NULL;;;Hip Hop;1
+27;Ballett Company;17:45:00;18:15:00;Freitag;ARTICO 4er;12;NULL;NULL;NULL;;;Ballett;1
+28;Circusjuniors;16:30:00;17:30:00;Montag;ARTICO 1er;9;36;35;NULL;;;Circus;3
+29;Salsa Cubana & Rueda;19:30:00;20:30:00;Dienstag;ARTICO 2er;19;NULL;NULL;NULL;;;Salsa Neumarkt;1
+30;Ballettkids Postbauer-Heng;15:30:00;16:15:00;Donnerstag;Postbauer-Heng;14;NULL;NULL;NULL;;;Ballett;1
+31;Circusturnen Altdorf;16:00:00;17:00:00;Donnerstag;Altdorf;17;74;53;NULL;;;Circus;3
+32;Circusjuniors Mühlhausen;15:30:00;16:30:00;Freitag;Mühlhausen;6;29;56;NULL;;;Circus;3
+33;Jugendkurs Einsteiger;15:00:00;16:00:00;Samstag;ARTICO 1er;57;58;NULL;NULL;;;Salsa Neumarkt;2
+34;Jugendkurs Aufbaustufe;16:00:00;17:00:00;Samstag;ARTICO 1er;57;58;NULL;NULL;;;Salsa Neumarkt;2
+35;Power&Zumba;19:15:00;20:15:00;Dienstag;ARTICO 5er;24;NULL;NULL;NULL;;;Fitness und Gesundheit;1
+37;Ballett Attitudes 2;13:45:00;15:15:00;Freitag;ARTICO 4er;12;NULL;NULL;NULL;;;Ballett;1
+38;Circuskids;15:30:00;16:30:00;Dienstag;ARTICO 1er;9;40;NULL;NULL;;;Circus;2
+39;Streetstyle Postbauer-Heng;17:00:00;18:00:00;Donnerstag;Postbauer-Heng;14;NULL;NULL;NULL;;;Streetstyle;1
+40;Ballettsternchen Postbauer-Heng;14:30:00;15:30:00;Donnerstag;Postbauer-Heng;14;NULL;NULL;NULL;;;Ballett;1
+41;Circuskids;15:00:00;16:00:00;Donnerstag;ARTICO 1er;3;50;NULL;NULL;;;Circus;2
+42;Elfenballett;16:00:00;16:45:00;Donnerstag;ARTICO 4er;12;NULL;NULL;NULL;;;Ballett;1
+43;Streetstyle Kids;16:15:00;17:15:00;Donnerstag;ARTICO 2er;7;NULL;NULL;NULL;;;Streetstyle;1
+44;Salsa Aufbau B;17:30:00;18:30:00;Sonntag;ARTICO 5er;26;NULL;NULL;NULL;;;Salsa Neumarkt;1
+45;Circusminis;16:15:00;17:00:00;Donnerstag;ARTICO 3er;9;38;NULL;NULL;;;Circus;2
+46;Circussternchen Berching;15:45:00;16:30:00;Mittwoch;Berching;49;1;NULL;NULL;;;Circus;2
+47;Salsa Mittelstufe;18:30:00;19:30:00;Sonntag;ARTICO 5er;26;NULL;NULL;NULL;;;Salsa Neumarkt;1
+48;Salsa Einsteiger;18:30:00;19:30:00;Donnerstag;ARTICO 5er;7;NULL;NULL;NULL;;;Salsa Neumarkt;1
+49;Circuskids;17:00:00;18:00:00;Donnerstag;ARTICO 3er;9;38;NULL;NULL;;;Circus;2
+50;Ballett Jetés;14:45:00;15:45:00;Montag;ARTICO 4er;12;NULL;NULL;NULL;;;Ballett;1
+51;Circuskids Freystadt;15:15:00;16:00:00;Donnerstag;Freystadt;29;54;NULL;NULL;;;Circus;2
+52;Tanzwerkstatt;20:00:00;21:00:00;Freitag;ARTICO 1er;20;55;NULL;NULL;;;Gesellschaftstanz;2
+53;Salsa Aufbau A;19:30:00;20:30:00;Donnerstag;ARTICO 5er;26;NULL;NULL;NULL;;;Salsa Neumarkt;1
+55;Kindertanzclub;15:30:00;16:30:00;Freitag;ARTICO 1er;20;NULL;NULL;NULL;;;Gesellschaftstanz;1
+56;Tanzkreis;19:00:00;20:00:00;Sonntag;ARTICO 1er;20;55;NULL;NULL;;;Gesellschaftstanz;2
+57;Circussternchen;17:00:00;17:45:00;Donnerstag;ARTICO 1er;3;50;NULL;NULL;;;Circus;2
+58;HipHop Juniors;17:00:00;18:00:00;Dienstag;ARTICO 4er;21;NULL;NULL;NULL;;;Hip Hop;1
+59;Orientalischer Tanz;20:00:00;21:00:00;Montag;ARTICO 2er;22;NULL;NULL;NULL;;;Orientalischer Tanz;1
+60;Ballett Attitude;15:45:00;17:15:00;Montag;ARTICO 4er;12;NULL;NULL;NULL;;;Ballett;1
+61;Circusminis;16:30:00;17:15:00;Dienstag;ARTICO 3er;31;41;NULL;NULL;;;Circus;2
+62;Circuskids;16:15:00;17:15:00;Mittwoch;ARTICO 3er;13;45;NULL;NULL;;;Circus;2
+63;Ballett Arabesque;15:00:00;16:00:00;Donnerstag;ARTICO 4er;12;NULL;NULL;NULL;;;Ballett;1
+64;Jugendtanzclub Jusis;18:30:00;19:30:00;Dienstag;ARTICO 1er;20;NULL;NULL;NULL;;;Gesellschaftstanz;1
+65;Tanzkreis;19:30:00;20:30:00;Dienstag;ARTICO 1er;20;NULL;NULL;NULL;;;Gesellschaftstanz;1
+66;Salsa Aufbau B;20:30:00;21:30:00;Donnerstag;ARTICO 5er;26;NULL;NULL;NULL;;;Salsa Neumarkt;1
+67;Circussternchen;15:00:00;15:45:00;Montag;ARTICO 1er;9;33;34;NULL;;;Circus;3
+68;Ballett Relevés;17:15:00;18:15:00;Montag;ARTICO 4er;12;NULL;NULL;NULL;;;Ballett;1
+69;Circuszwerge;15:45:00;16:30:00;Dienstag;ARTICO 3er;31;41;NULL;NULL;;;Circus;2
+70;Ballett Advanced;16:15:00;17:45:00;Freitag;ARTICO 4er;12;NULL;NULL;NULL;;;Ballett;1
+72;Circusjuniors Freystadt;16:00:00;17:00:00;Donnerstag;Freystadt;29;54;NULL;NULL;;;Circus;2
+73;Irish Dance, Fortgeschritten;19:00:00;21:00:00;Mittwoch;ARTICO 2er;23;NULL;NULL;NULL;;;Irish Step;1
+74;Zumba;09:00:00;10:00:00;Montag;ARTICO 1er;24;NULL;NULL;NULL;;;Fitness und Gesundheit;1
+75;Circuszwerge;15:30:00;16:15:00;Donnerstag;ARTICO 3er;9;38;NULL;NULL;;;Circus;2
+77;Einsteiger Bauchtanz;19:00:00;20:00:00;Montag;ARTICO 2er;22;NULL;NULL;NULL;;;Orientalischer Tanz;1
+78;Ballett Erwachsene;18:30:00;19:30:00;Donnerstag;ARTICO 4er;12;NULL;NULL;NULL;;;Ballett;1
+79;Circuskids Berching;16:30:00;17:30:00;Mittwoch;Berching;49;1;NULL;NULL;;;Circus;2
+80;Rückenfit;18:30:00;19:30:00;Dienstag;ARTICO 2er;15;NULL;NULL;NULL;;;Fitness und Gesundheit;1
+81;Circusjuniors Berching;17:30:00;18:30:00;Mittwoch;Berching;5;1;48;49;;;Circus;4
+82;Circuskids Berching;16:30:00;17:30:00;Mittwoch;Berching;5;48;NULL;NULL;;;Circus;2
+83;Ballett Jetés;17:30:00;18:30:00;Donnerstag;ARTICO 4er;12;NULL;NULL;NULL;;;Ballett;1
+86;Circuskids;15:15:00;16:15:00;Mittwoch;ARTICO 3er;13;45;38;NULL;;;Circus;2
+87;Teenstanzclub;18:00:00;19:00:00;Freitag;ARTICO 1er;20;NULL;NULL;NULL;;;Gesellschaftstanz;1
+88;Aerobic/Bodyshape;09:00:00;10:00:00;Mittwoch;ARTICO 1er;24;NULL;NULL;NULL;;;Fitness und Gesundheit;1
+89;Circuszwerge;15:30:00;16:15:00;Montag;ARTICO 3er;3;113;NULL;NULL;;;Circus;2
+90;Bodystyling;18:30:00;19:30:00;Montag;ARTICO 5er;25;NULL;NULL;NULL;;;Fitness und Gesundheit;1
+91;Zumba;16:00:00;17:00:00;Mittwoch;ARTICO 2er;18;NULL;NULL;NULL;;;Fitness und Gesundheit;1
+92;Bachata;19:00:00;20:30:00;Mittwoch;ARTICO 1er;7;14;NULL;NULL;;;Salsa Neumarkt;2
+93;Ballettsternchen;15:45:00;16:30:00;Dienstag;ARTICO 2er;27;NULL;NULL;NULL;;;Ballett;1
+94;Dance Fitness;09:00:00;10:00:00;Freitag;ARTICO 1er;12;NULL;NULL;NULL;;;Fitness und Gesundheit;1
+95;Circussternchen;14:15:00;15:00:00;Montag;ARTICO 1er;9;33;34;NULL;;;Circus;3
+96;Zumba (Dance Fitness);17:30:00;18:30:00;Montag;ARTICO 1er;18;NULL;NULL;NULL;;;Fitness und Gesundheit;1
+100;Tanzkreis;19:00:00;20:00:00;Freitag;ARTICO 1er;20;55;NULL;NULL;;;Gesellschaftstanz;2
+101;Kindertanzkurs Maxis (Wonderteens);15:30:00;16:30:00;Freitag;ARTICO 5er;20;NULL;NULL;NULL;;;Gesellschaftstanz;1
+102;Tanzen;17:45:00;18:45:00;Sonntag;ARTICO 1er;20;55;NULL;NULL;;;Gesellschaftstanz;2
+103;Aktiver Rücken;19:00:00;19:45:00;Montag;ARTICO 3er;17;NULL;NULL;NULL;;;Fitness und Gesundheit;1
+104;Yoga;19:00:00;20:00:00;Mittwoch;ARTICO 4er;28;NULL;NULL;NULL;;;Fitness und Gesundheit;1
+105;Rückbildung;09:15:00;10:15:00;Mittwoch;ARTICO 4er;10;NULL;NULL;NULL;;;Fitness und Gesundheit;1
+106;Circuskids;16:30:00;17:30:00;Montag;ARTICO 3er;17;85;48;NULL;;;Circus;3
+107;Streetstyle (ab 13J);18:00:00;19:00:00;Montag;ARTICO 5er;14;NULL;NULL;NULL;;;Streetstyle;1
+108;Circusteens;14:30:00;15:30:00;Donnerstag;ARTICO 3er;9;51;NULL;NULL;;;Circus;2
+110;Ballett Leistungsklasse;15:30:00;17:00:00;Mittwoch;ARTICO 4er;12;NULL;NULL;NULL;;;Ballett;1
+111;HipHop Jugend;18:00:00;19:00:00;Dienstag;ARTICO 4er;21;NULL;NULL;NULL;;;Hip Hop;1
+113;HipHop Erwachsene;19:00:00;20:30:00;Dienstag;ARTICO 4er;21;NULL;NULL;NULL;;;Hip Hop;1
+114;Circuszwerge Lauterhofen;16:15:00;17:00:00;Dienstag;Lauterhofen;1;42;NULL;NULL;;;Circus;2
+115;Circusjuniors Lauterhofen;17:00:00;18:00:00;Dienstag;Lauterhofen;1;42;NULL;NULL;;;Circus;2
+116;Circussternchen Mühlhausen;14:30:00;15:15:00;Freitag;Mühlhausen;6;29;56;NULL;;;Circus;3
+119;Powerpilates;19:30:00;20:30:00;Mittwoch;ARTICO 1er;3;NULL;NULL;NULL;;;Fitness und Gesundheit;1
+120;Ballett Allegros;15:15:00;16:15:00;Freitag;ARTICO 4er;12;NULL;NULL;NULL;;;Ballett;1
+122;Salsa Cubana Einsteiger;18:30:00;19:30:00;Freitag;ARTICO 5er;19;NULL;NULL;NULL;;;Salsa Neumarkt;1
+123;Circussternchen;15:45:00;16:30:00;Mittwoch;ARTICO 1er;6;43;NULL;NULL;;;Circus;2
+125;Streetstyle Erwachsene;20:30:00;21:30:00;Dienstag;ARTICO 4er;21;NULL;NULL;NULL;;;Streetstyle;1
+128;Ladystyling;18:00:00;19:00:00;Mittwoch;ARTICO 1er;14;NULL;NULL;NULL;;;Salsa Neumarkt;1
+129;Ladystyle Showgruppe;21:00:00;22:00:00;Montag;ARTICO 5er;14;NULL;NULL;NULL;;;Salsa Neumarkt;1
+134;Streetstyle Jugend;15:15:00;16:15:00;Donnerstag;ARTICO 2er;7;NULL;NULL;NULL;;;Streetstyle;1
+135;Streetstyle Juniors;15:30:00;16:30:00;Montag;ARTICO 5er;14;NULL;NULL;NULL;;;Streetstyle;1
+136;Balletsternchen;16:45:00;17:30:00;Donnerstag;ARTICO 4er;12;NULL;NULL;NULL;;;Ballett;1
+137;Salsa Cubana Aufbau;19:30:00;20:30:00;Freitag;ARTICO 5er;19;NULL;NULL;NULL;;;Salsa Neumarkt;1
+139;Bodystyling;09:00:00;10:00:00;Donnerstag;ARTICO 2er;17;NULL;NULL;NULL;Ferienkurs;;Fitness und Gesundheit;1
+144;Tanzen Jannik;20:30:00;21:30:00;Montag;ARTICO 1er;5;NULL;NULL;NULL;;;Gesellschaftstanz;1
+145;Einrad Spezial;18:00:00;19:00:00;Mittwoch;ARTICO 1er;6;44;NULL;NULL;;;Circus;2
+146;Salsa Showgruppe;20:00:00;21:00:00;Montag;ARTICO 5er;14;7;NULL;NULL;;;Salsa Neumarkt;2
+149;Bodystyling;18:45:00;19:45:00;Freitag;ARTICO 4er;17;NULL;NULL;NULL;Ferienkurs;;Fitness und Gesundheit;1
+150;Balletfeen Postbauer-Heng;16:15:00;17:00:00;Donnerstag;Postbauer-Heng;14;NULL;NULL;NULL;;;Ballett;1
+151;Moderner Tanz Freystadt;15:30:00;16:15:00;Montag;Freystadt;7;NULL;NULL;NULL;;;Streetstyle;1
+152;Moderner Tanz Freystadt;14:30:00;15:30:00;Montag;Freystadt;7;NULL;NULL;NULL;;;Streetstyle;1
+153;Menstyling;21:00:00;22:00:00;Montag;ARTICO 4er;7;NULL;NULL;NULL;;;Salsa Neumarkt;1
+154;CrossTraining;18:30:00;19:00:00;Donnerstag;Turnerheim;16;NULL;NULL;NULL;;;Fitness und Gesundheit;1
+154;CrossTraining;19:15:00;20:00:00;Montag;Turnerheim;16;NULL;NULL;NULL;;;Fitness und Gesundheit;1
+155;Circussternchen Postbauer-Heng;15:15:00;16:00:00;Mittwoch;Postbauer-Heng;30;47;NULL;NULL;;;Circus;2
+156;Circuskids Postbauer-Heng;16:00:00;17:00:00;Mittwoch;Postbauer-Heng;30;47;NULL;NULL;;;Circus;2
+157;Moderner Tanz Teens;16:15:00;17:15:00;Montag;Freystadt;7;NULL;NULL;NULL;;;Streetstyle;1
+158;Elfenballett;16:30:00;17:15:00;Montag;ARTICO 5er;14;NULL;NULL;NULL;;;Ballett;1
+159;Feenballett;16:30:00;17:15:00;Dienstag;ARTICO 2er;27;NULL;NULL;NULL;;;Ballett;1
+160;Circussternchen Freystadt;15:15:00;16:00:00;Donnerstag;Freystadt;6;54;NULL;NULL;;;Circus;2
+165;Slings;19:00:00;20:00:00;Donnerstag;ARTICO 2er;15;NULL;NULL;NULL;;;Fitness und Gesundheit;1
+166;Pilates;19:30:00;20:30:00;Donnerstag;ARTICO 4er;3;NULL;NULL;NULL;;;Fitness und Gesundheit;1
+167;Bachata;18:30:00;19:30:00;Donnerstag;ARTICO 2er;14;NULL;NULL;NULL;;;Salsa Neumarkt;2
+168;Salsa Einsteiger;15:30:00;16:30:00;Sonntag;ARTICO 5er;26;NULL;NULL;NULL;;;Salsa Neumarkt;1
+169;Salsa;19:00:00;20:00:00;Montag;ARTICO 5er;7;14;NULL;NULL;;;Salsa Neumarkt;2
+170;Salsa Aufbau A;16:30:00;17:30:00;Sonntag;ARTICO 5er;26;NULL;NULL;NULL;;;Salsa Neumarkt;1
+0;Rückbildung2;10:15:00;11:15:00;Mittwoch;ARTICO 4er;10;NULL;NULL;NULL;;;Fitness und Gesundheit;1

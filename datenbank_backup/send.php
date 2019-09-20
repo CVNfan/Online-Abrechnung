@@ -3,15 +3,6 @@
     <meta content="de" http-equiv="Content-Language" />
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
     <title>Abgeschickt</title>
-    <style>
-      td
-      {
-        text-align: center;
-      }
-      tr{
-        width:100%;
-      }
-      </style>
   </head>
 <?php
 
@@ -56,13 +47,7 @@ ini_set('display_startup_errors', 1);
     {
       //sieht nach ob dieser Trainer bereits gehalten hat
       console("hat der trainer diesen kurs bereits eingetragen?");
-      $query =
-      "SELECT `Kurstitel`
-      FROM `gehalteneKurse`
-      JOIN `User`
-      ON gehalteneKurse.KursleiterTats1 = User.ID AND gehalteneKurse.KursleiterTats2 = User.ID AND gehalteneKurse.KursleiterTats3 = User.ID AND gehalteneKurse.KursleiterTats4 = User.ID
-      WHERE Datum='$value[0]' AND Vorname ='$user[1]' AND Nachname = '$user[2]' AND Kursnummer = '$value[4]'
-      ";
+      $query = "SELECT `Kurstitel` FROM `gehalteneKurse` JOIN `User` ON gehalteneKurse.KursleiterTats = User.ID WHERE Datum='$value[0]' AND Vorname ='$user[1]' AND Nachname = '$user[2]' AND Kursnummer = '$value[4]'";
       $result = mysqli_query($connection,$query);
       $row = mysqli_fetch_array($result);
       console("Kurstitel -> Datum $value[0]:".mysqli_error($connection));
@@ -143,7 +128,7 @@ ini_set('display_startup_errors', 1);
   $year = substr($value[0],6,4);
 
   //DAS MALT DIE KURSE
-  function drawKurse($connection, $data, $user, $date)
+  function drawKurse($connection, $data, $user)
   {
     //console("start showing $data");
       foreach($data as $key => &$value)
@@ -185,18 +170,12 @@ ini_set('display_startup_errors', 1);
         //console("trainerzahl $trainerzahl");
 
         //Suche bereits gehaltene Kurse dieses Datums
-        //DIESE ABFRAGE MUSS ANGEPASST WERDEN!!!
-        $query = "SELECT KursleiterTats1, KursleiterTats2, KursleiterTats3, KursleiterTats4 FROM `gehalteneKurse` WHERE Datum='$value[0]' AND Kursnummer=$value[4]";
+        $query = "SELECT COUNT(Kursnummer) AS gehaltenzahl FROM `gehalteneKurse` WHERE Datum='$value[0]' AND Kursnummer=$value[4]";
 
         $result = mysqli_query($connection,$query);
         if (!mysqli_query($connection,$query)) die(mysqli_error($connection)."Befehl für gehaltenzahl nicht gültig");
         $row = mysqli_fetch_array($result);
-        $gehaltenzahl = 0;
-        for($i = 0; $i < 4; $i++)
-        {
-          if($row[$i]!='') $gehaltenzahl++;
-        }
-        unset($row);
+        $gehaltenzahl = intval($row["gehaltenzahl"]);
         //console("gehaltenzahl $gehaltenzahl");
 
         if($is_feiertag || $is_ferientag)
@@ -209,36 +188,14 @@ ini_set('display_startup_errors', 1);
             $is_feiertag = false;
             $is_ferientag = false;
           }
-          unset($row);
         }
 
         //vgl Trainer- und Kurszahl
         if($gehaltenzahl < $trainerzahl && !$is_feiertag && !$is_ferientag) //wenn noch nicht alle eingetragen, Abrechnung
         {
           //Kurs in 'GehalteneKurse' eintragen
-          $query = "SELECT `EintragsID`, `KursleiterTats1`, `KursleiterTats2`, `KursleiterTats3`, `KursleiterTats4` FROM `gehalteneKurse` WHERE Datum='$value[0]' AND Kursnummer='$value[4]'";
+          $query = "INSERT INTO `gehalteneKurse` (`Kursnummer`, `Kurstitel`, `Datum`, `KursleiterTats`) VALUES ('$value[4]', '$value[5]', '$value[0]', '$user[0]');";
           $result = mysqli_query($connection,$query);
-          echo mysqli_error($connection);
-          if(!is_bool($result))  $row = mysqli_fetch_array($result);
-          //print_r($row);
-          //print_r($row[0]);
-
-          $number = 1;
-          if(isset($row[0]))
-          {
-            for($i = 1; $row[$i]!=''; $i++) $number = $i;
-            $kursleiter = 'KursleiterTats'.$number;
-            echo "<br>kursleiter = $kursleiter";
-            $query = "UPDATE `gehalteneKurse` SET $kursleiter='$user[0]' WHERE EintragsID='$row[0]'";
-            //echo $query;
-            $result = mysqli_query($connection,$query);
-
-          }
-          else
-          {
-            $query = "INSERT INTO `gehalteneKurse` (`Kursnummer`, `Kurstitel`, `Datum`, `KursleiterTats`) VALUES ('$value[4]', '$value[5]', '$value[0]', '$user[0]');";
-            $result = mysqli_query($connection,$query);
-          }
 
           //hinmalen der Kurse
           if($date == $value[0])
@@ -263,8 +220,8 @@ ini_set('display_startup_errors', 1);
 ?>
   <body>
     <?php
-    if(isset($bigdata)) drawKurse($connection, $bigdata, $user, $date); else echo "<br>- keine regulären Kurse empfangen. - ";
-    if(isset($vertretungen)) drawKurse($connection, $vertretungen, $user, $date); else echo "<br> - keine vertretenen Kurse empfangen. - ";
+    if(isset($bigdata)) drawKurse($connection, $bigdata, $user); else echo "<br>- keine regulären Kurse empfangen. - ";
+    if(isset($vertretungen)) drawKurse($connection, $vertretungen, $user); else echo "<br> - keine vertretenen Kurse empfangen. - ";
     include("pdf-data.php");
     mysqli_close($connection);
 

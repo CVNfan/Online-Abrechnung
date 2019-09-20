@@ -1,0 +1,124 @@
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+  error_reporting(E_ALL);
+
+  echo "
+    <style>
+    td
+    {
+      white-space:  nowrap;
+      text-align:   center;
+    }
+    th
+    {
+      text-align:   center;
+    }
+    </style>
+  ";
+
+  $mysqlhost = "rdbms.strato.de";
+  $mysqluser = "U3468070";
+  $mysqlpwd = "gNLNXnFvfphL8+9";
+  $dbname = "DB3468070";
+  $dbtable = "Kurse";
+
+  $connection = mysqli_connect($mysqlhost, $mysqluser, $mysqlpwd) or die("Verbindung zur Datenbank fehlgeschlagen.");
+  mysqli_set_charset($connection,'utf8');
+  if($_POST)
+  {
+    mysqli_select_db($connection,$dbname) or die("Fehler bei der Datenbanktabellenauswahl.");
+
+    //$firstname = $_POST['firstname'];
+    $firstname = isset($_POST['firstname']) ? $_POST['firstname'] : "";
+    if (empty(trim($firstname))) die ("Vorname muss aufgefüllt werden.");
+
+    //$lastname = $_POST['lastname'];
+    $lastname = isset($_POST['lastname']) ? $_POST['lastname'] : "";
+    if (empty(trim($lastname))) die ("Nachname muss aufgefüllt werden.");
+
+    //$userpw = $_POST['pw'];
+    $userpw = isset($_POST['pw']) ? $_POST['pw'] : "";
+    if (empty(trim($userpw))) die ("Passwort muss aufgefüllt werden.");
+
+    //Abfrage ob PW korrekt
+    $query = "SELECT ID, Vorname, Nachname FROM `User` WHERE Vorname='$firstname' AND Nachname='$lastname' AND Passwort='$userpw'";
+    $result = mysqli_query($connection,$query) or die (mysqli_error($connection));
+    $row = mysqli_fetch_array($result);
+    if($row==FALSE || ($firstname!='Alexander' && $firstname!='Johannes' && $firstname!='Heidi'))//das sind Admins
+    {
+      sleep(2);
+      die("Keine Passwort-Nutzer-Übereinstimmung gefunden.");
+    }
+    echo "<h2>Alex: Abrechnung</h2>";
+    echo "<form action='/adminloginsend/' method='post'>
+          Von welchem Lehrer willst du die eingetragenen Stunden sehen?
+          <input name='firstname' type='text' placeholder='Vorname'>
+          <input name='lastname' type='text' placeholder='Nachname'>
+          <input name='submit' type='submit' value='Auswerten'>
+          </form>";
+    echo "<h2>Stundenplan (TEST)</h2>";
+
+    $days = ["Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag","Sonntag"];
+    foreach ($days as &$value)
+    {
+      $query = "SELECT MIN(Uhrzeit_Beginn), MAX(Uhrzeit_Ende) FROM Kurse WHERE Wochentag = '$value'";
+      $result = mysqli_query($connection,$query) or die (mysqli_error($connection));
+      $row = mysqli_fetch_array($result);
+      $beginn = date('H:i',strtotime($row[0]));
+      $ende = date('H:i',strtotime($row[1]));
+
+      $query = "SELECT Raum FROM Kurse WHERE Wochentag = '$value' AND Raum != 'Haus St. Marien' AND Raum != 'on the road' GROUP BY Raum ORDER BY Raum";
+      $result = mysqli_query($connection,$query) or die (mysqli_error($connection));
+
+      echo "<br>$value:<table id='$value' style='display:none;'><tr><th>Uhrzeit:</th>";
+      $i = 0;
+      while ($roomrow = mysqli_fetch_row($result)) //erzeugt alle Raumspalten
+      {
+        echo "<th>$roomrow[0]</th>";
+        $rooms[$i] = $roomrow[0];
+        $i++;
+      }
+      echo "</tr>";
+
+      $query = "SELECT Kursnummer, Kurstitel, Uhrzeit_Beginn, Uhrzeit_Ende, Raum, Trainer FROM Kurse WHERE Wochentag = '$value' AND Raum != '' ORDER BY Raum, Uhrzeit_Beginn";
+      $result = mysqli_query($connection,$query) or die (mysqli_error($connection));
+
+      for($beginn = date('H:i',strtotime($beginn)); $beginn != $ende; $beginn = date('H:i',strtotime('+15 minutes', strtotime($beginn))))
+      {
+        echo "<tr><td>$beginn-".date('H:i',strtotime('+15 minutes', strtotime($beginn)))."Uhr</td>"; //zeichnet die Uhrzeitspalte
+
+        $result = mysqli_query($connection,$query) or die (mysqli_error($connection));//holt sich alle Kurse
+        $kurscounter = 0;
+        while ($kursrow = mysqli_fetch_row($result))
+        {
+          if(strtotime($beginn) >= strtotime($kursrow[2]) && strtotime(date('H:i',strtotime('+15 minutes', strtotime($beginn)))) <= strtotime($kursrow[3]))
+          {//sucht kurse zu dieser Zeit
+            $j = 0;
+            foreach($rooms as $key => &$value)
+            {//rotiert durch alle vorhandenen Räume
+              if($kursrow[4]==$value)
+              {//trägt Kurs im zutreffenden Raum ein
+                while($kurscounter < $key)
+                {
+                  echo "<td></td>";
+                  $kurscounter++;
+                }
+                if($kurscounter > $key && $kursrow[4] != 'Turnerheim' && $kursrow[4] != 'on the road') echo "<br>$kursrow[0] - $kursrow[1] ist nicht eindeutig belegt!";
+                echo "<td>$kursrow[1]</td>";
+                $kurscounter++;
+                break;
+              }
+            }
+          }
+        }
+        echo "</tr>";
+      }
+      echo "</table>";
+    }
+  }
+  else
+  {
+    echo "du bist kein gültiger Admin, oder hast dich vertippt :/";
+  }
+?>

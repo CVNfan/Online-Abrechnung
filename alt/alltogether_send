@@ -1,0 +1,552 @@
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+
+  error_reporting(E_ALL);
+
+  $mysqlhost = "rdbms.strato.de";
+  $mysqluser = "U3468070";
+  $mysqlpwd = "gNLNXnFvfphL8+9";
+  $dbname = "DB3468070";
+  $dbtable = "Kurse";
+
+  $connection = mysqli_connect($mysqlhost, $mysqluser, $mysqlpwd) or die("Verbindung zur Datenbank fehlgeschlagen.");
+  mysqli_set_charset($connection,'utf8');
+
+class LPLib_Ferien_Connector
+{
+  const BASE_URL = 'https://ferien-api.de/api/v1/holidays/BY';
+
+  const LAND_BAYERN = 'BY';
+
+  private static $cache = array();
+  private static $itsInstance = null;
+
+  private function __construct(){}
+
+  public static function getInstance()
+  {
+    if(self::$itsInstance == null)
+      self::$itsInstance = new LPLib_Ferien_Connector();
+
+    return self::$itsInstance;
+  }
+
+
+  public function getFerientage()
+    {
+      $result = $this->_file_get_contents_t_curl(LPLib_Ferien_Connector::BASE_URL);
+      self::$cache = json_decode($result,true);
+
+      return self::$cache;
+    }
+
+    private function _file_get_contents_t_curl($url) {
+  		$file = @file_get_contents($url);
+  		if(!empty($file))
+  			return $file;
+  		else
+  		{
+  			$ch = curl_init();
+
+  			curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
+  			curl_setopt($ch, CURLOPT_HEADER, 0);
+  			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  			curl_setopt($ch, CURLOPT_URL, $url);
+  			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+
+  			$data = curl_exec($ch);
+  			curl_close($ch);
+
+  			return $data;
+      }
+    }
+  }
+
+class LPLib_Feiertage_Connector
+{
+	const BASE_URL = 'https://feiertage-api.de/api/';
+
+	const LAND_BAYERN = 'BY';
+
+	private static $cache = array();
+	private static $itsInstance = null;
+
+	private function __construct(){}
+
+	public static function getInstance()
+	{
+		if(self::$itsInstance == null)
+			self::$itsInstance = new LPLib_Feiertage_Connector();
+
+		return self::$itsInstance;
+	}
+
+	public function getFeiertageVonLand($jahr,$land)
+		{
+			if(isset(self::$cache['c0-'.$jahr.$land]))
+				return self::$cache['c0-'.$jahr.$land];
+
+			$result = $this->_file_get_contents_t_curl(LPLib_Feiertage_Connector::BASE_URL.'?jahr='.$jahr.'&nur_land='.$land);
+			self::$cache['c0-'.$jahr.$land] = json_decode($result,true);
+
+			return self::$cache['c0-'.$jahr.$land];
+		}
+
+	public function  isFeiertagInLand($datum,$land)
+	{
+		$feiertage_land = $this->getFeiertageVonLand(date('Y',strtotime($datum)),$land);
+
+		foreach($feiertage_land as $feiertagsname => $feiertagsdatum)
+			if($feiertagsdatum['datum'] == date('Y-m-d',strtotime($datum)))
+				return true;
+
+		return false;
+	}
+
+	private function _file_get_contents_t_curl($url) {
+		$file = @file_get_contents($url);
+		if(!empty($file))
+			return $file;
+		else
+		{
+			$ch = curl_init();
+
+			curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
+			curl_setopt($ch, CURLOPT_HEADER, 0);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($ch, CURLOPT_URL, $url);
+			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+
+			$data = curl_exec($ch);
+			curl_close($ch);
+
+			return $data;
+		}
+
+		throw new Exception('Verbindung zur Feiertags-API war nicht moeglich.');
+	}
+}
+
+  mysqli_select_db($connection,$dbname) or die("Datenbank not found");
+
+  //Prüft auf Nutzer
+  if($_POST['User'])
+  {
+    $user = explode('#%#',$_POST['User']);
+    if($user)
+    {
+      $firstname = $user[1];
+      $lastname = $user[2];
+      $userid = intval($user[0]);
+    }
+  }
+  echo "<h2>Hallo $firstname $lastname!</h2>";
+
+  $date = null;
+
+  echo "<br>Deine Angaben wurden überprüft:";
+
+  //Prüft auf gehaltene Kurse
+  if(isset($_POST['gehalteneKurse']))
+  {
+    $i = 0;
+    $bigdata[] = null;
+    foreach($_POST['gehalteneKurse'] as &$value)
+    {
+      $bigdata[$i] = explode('#%#',$value);
+      $i++;
+    }
+    foreach ($bigdata as $key => &$value)
+    {
+      //hat der trainer diesen kurs bereits eingetragen?
+      $dateFormat = date("Y-m-d",strtotime($value[0]));
+      $query =
+      "SELECT `Kurstitel`
+      FROM `gehalteneKurse`
+      JOIN `User`
+      ON gehalteneKurse.KursleiterTats1 = User.ID OR gehalteneKurse.KursleiterTats2 = User.ID OR gehalteneKurse.KursleiterTats3 = User.ID OR gehalteneKurse.KursleiterTats4 = User.ID
+      WHERE Datum='$dateFormat' AND Vorname ='$user[1]' AND Nachname = '$user[2]' AND Kursnummer = '$value[4]' AND Kurstitel='$value[5]'
+      ";
+      $result = mysqli_query($connection,$query);
+      echo mysqli_error($connection);
+      $row = mysqli_fetch_array($result);
+      $value[0] = date("d.m.Y", strtotime($value[0]));
+      if($row!="")
+      {
+        echo "<br>Du hast den Kurs $value[5] am $value[0] bereits eingetragen!";
+        unset($bigdata[$key]);
+        continue;
+      }
+    }
+  }
+
+  //Prüft auf Vertretungen
+  if(isset($_POST['vertreteneKurse']))
+  {
+    $i = 0;
+    $j = 0;
+    $vertretungen = null;
+    foreach($_POST['vertreteneKurse'] as &$value)
+    {
+      switch($i)
+      {
+        case 0: $vertretungen[$j][0] = $value; $ffirstname = $value; if (empty(trim($ffirstname))) die ("<br>Vertretungen: Vorname muss ausgefüllt werden."); break; //Vorname
+        case 1: $vertretungen[$j][1] = $value; $llastname = $value; if (empty(trim($llastname))) die ("<br>Vertretungen: Nachname muss ausgefüllt werden."); break; //Nachname
+        case 2: $vertretungen[$j][2] = $value; $date = $value; if (empty(trim($date))) die ("<br>Vertretungen: Datum muss ausgefüllt werden."); $date = date("d.m.Y", strtotime($date)); $vertretungen[$j][2] = $date; break; //Datum tt.mm.jjjj
+        case 3: $vertretungen[$j][3] = $value; $kursbeginn = $value; if (empty(trim($kursbeginn)) && $kursbeginn!='0') die ("<br>Vertretungen: Kursbeginn muss ausgefüllt werden."); $vertretungen[$j][3] = $value;  $j++; $i = -1; break;
+      }
+      $i++;
+    }
+    foreach($vertretungen as $key => &$value)
+    {//existiert der vertrenen Kurs?
+      $query = "SELECT Kursnummer, Kurstitel, Wochentag, Uhrzeit_Beginn, Uhrzeit_Ende, Sparte FROM `Kurse` JOIN `User` ON Kurse.Kursleiter1 = User.ID OR Kurse.Kursleiter2 = User.ID OR Kurse.Kursleiter3 = User.ID OR Kurse.Kursleiter4 = User.ID
+                WHERE User.Vorname = '$value[0]' AND User.Nachname = '$value[1]' AND Uhrzeit_Beginn = '$value[3]'";
+
+      $result = mysqli_query($connection,$query);
+      $row = mysqli_fetch_array($result);
+      //datum, wochentag, kursbeginn, kursende, kursid,kursname, zeitaufwand, sparte
+      $kursid = $row[0];
+      $kursname = $row[1];
+      $sparte = $row[5];
+      $zeitaufwand = (strtotime($row[4])-strtotime($row[3]))/60;
+      $value = array("$value[2]","$row[2]",substr($row[3],0,5),substr($row[4],0,5),"$kursid","$kursname","$zeitaufwand","$sparte");
+      if ($row[0]=="" || $row[1]=="")
+      {
+        echo "<br>FEHLER: Für deine Angaben für $value[0], $value[2] wurde kein übereinstimmenden Kurs gefunden! Bitte überprüfe deine Eingaben.";
+        unset($vertretungen[$key]);
+      }
+      $dateFormat = date("Y-m-d",strtotime($value[0]));
+      //sieht nach ob dieser Trainer bereits gehalten hat
+      $query =
+      "SELECT `Kurstitel`
+      FROM `gehalteneKurse`
+      JOIN `User`
+      ON gehalteneKurse.KursleiterTats1 = User.ID OR gehalteneKurse.KursleiterTats2 = User.ID OR gehalteneKurse.KursleiterTats3 = User.ID OR gehalteneKurse.KursleiterTats4 = User.ID
+      WHERE Datum='$dateFormat' AND User.Vorname ='$user[1]' AND User.Nachname = '$user[2]' AND Kurstitel = '$row[1]'
+      ";
+      $result = mysqli_query($connection,$query);
+      $row = mysqli_fetch_array($result);
+      if($row!="")
+      {
+        echo "<br>Du hast den Kurs $value[5] am $value[0] bereits eingetragen!";
+        unset($vertretungen[$key]);
+        continue;
+      }
+    }
+  }
+  if(!isset($value[0])) $value[0] = date('d.m.Y');
+  $year = date("Y",strtotime($value[0]));
+  $month = date("m",strtotime($value[0]));
+
+
+  //DAS MALT DIE KURSE
+  function drawKurse($connection, $data, $user, $date)
+  {
+    foreach($data as $key => &$value)
+    {
+      if(!isset($value))
+      {
+        echo "ungültigen Kurs übersprungen.";
+        continue;
+      }
+      $connectorFei = LPLib_Feiertage_Connector::getInstance();
+      $connectorFer = LPLib_Ferien_Connector::getInstance();
+      $is_ferientag = $connectorFer->getFerientage();
+      $is_feiertag = $connectorFei->isFeiertagInLand($value[0], LPLib_Feiertage_Connector::LAND_BAYERN);
+      $dateInt = strtotime($value[0]);
+      $monthInt= date("m",strtotime($value[0]));
+      $year= date("Y",strtotime($value[0]));
+      $date = null;
+      foreach($is_ferientag as &$vvalue)
+      {
+        if($vvalue['year']==$year)
+        {
+          if(substr($vvalue['start'],5,2)=="$monthInt" || substr($vvalue['end'],5,2)=="$monthInt")
+          {
+            $start = strtotime($vvalue['start']);
+            $end = strtotime($vvalue['end']);
+          }
+        }
+      }
+      if(isset($start)&&isset($end))
+      {
+        $is_ferientag = ($start<=$dateInt && $dateInt<=$end);
+      }
+      else
+      {
+        $is_ferientag = false;
+      }
+
+      //Suche Trainerzahl des Kurses
+      $query = "SELECT `Trainerzahl` FROM `Kurse` WHERE Kursnummer='$value[4]' AND Kurstitel='$value[5]'";
+      $result = mysqli_query($connection,$query);
+      if (!mysqli_query($connection,$query)) die(mysqli_error($connection)."Befehl für Trainerzahl nicht gültig.");
+      $row = mysqli_fetch_array($result);
+      $trainerzahl = intval($row[0]);
+
+      //Suche bereits gehaltene Kurse dieses Datums
+      $dateFormat = date("Y-m-d",strtotime($value[0]));
+      $query = "SELECT KursleiterTats1, KursleiterTats2, KursleiterTats3, KursleiterTats4 FROM `gehalteneKurse` WHERE Datum='$dateFormat' AND Kursnummer='$value[4]' AND Kurstitel='$value[5]'";
+
+      $result = mysqli_query($connection,$query);
+      if (!mysqli_query($connection,$query)) die(mysqli_error($connection)."Befehl für gehaltenzahl nicht gültig");
+      $row = mysqli_fetch_array($result);
+      $gehaltenzahl = 0;
+      for($i = 0; $i < 4; $i++)
+      {
+        if($row[$i]!='') $gehaltenzahl++;
+      }
+      unset($row);
+
+      if($is_feiertag || $is_ferientag)
+      {
+        $query = "SELECT Kategorie FROM `Kurse` WHERE Kursnummer='$value[4]' AND Kurstitel='$value[5]'";
+        $result = mysqli_query($connection,$query);
+        $row = mysqli_fetch_array($result);
+        if(strpos($row['Kategorie'],"Ferienkurs")==false)
+        {
+          $is_feiertag = false;
+          $is_ferientag = false;
+        }
+        unset($row);
+      }
+
+      //vgl Trainer- und Kurszahl
+      if($gehaltenzahl < $trainerzahl && !$is_feiertag && !$is_ferientag) //wenn noch nicht alle eingetragen, Abrechnung
+      {
+        //Kurs in 'GehalteneKurse' eintragen
+        unset($row);
+        $dateFormat = date("Y-m-d",strtotime($value[0]));
+        $query = "SELECT `Kursnummer`, `Datum`, `KursleiterTats1`, `KursleiterTats2`, `KursleiterTats3`, `KursleiterTats4` FROM `gehalteneKurse` WHERE Datum='$dateFormat' AND Kursnummer='$value[4]' AND Kurstitel ='$value[5]'";
+        $result = mysqli_query($connection,$query);
+        echo mysqli_error($connection);
+        if(!is_bool($result))  $row = mysqli_fetch_array($result);
+        $number = 1;
+
+        if(isset($row[0]))
+        {
+          for($i = 2; $row[$i]!=''; $i++)
+          {
+            $number = $i;
+          }
+          $kursleiter = 'KursleiterTats'.$number;
+          $query = "UPDATE `gehalteneKurse` SET $kursleiter='$user[0]' WHERE Kursnummer='$row[0]' AND Datum='$row[1]' AND Kurstitel = '$value[5]'";
+          $result = mysqli_query($connection,$query);
+        }
+        else
+        {
+          $dateFormat = date("Y-m-d",strtotime($value[0]));
+          $query = "INSERT INTO `gehalteneKurse` (`Kursnummer`, `Kurstitel`, `Datum`, `KursleiterTats1`, `KursleiterTats2`, `KursleiterTats3`, `KursleiterTats4`) VALUES ('$value[4]', '$value[5]', '$dateFormat', '$user[0]',null,null,null);";
+          $result = mysqli_query($connection,$query);
+          echo mysqli_error($connection);
+        }
+      }//Abbruch bei Dopplungen
+      else if($is_feiertag && $is_ferientag)
+      {
+        echo "<br>$value[0] ist ein Feier-/Ferientag!";
+        if(isset($data[$key])) unset($data[$key]);
+      }
+      else if($is_ferientag)
+      {
+        echo "<br>$value[0] ist ein Ferientag!";
+        if(isset($data[$key])) unset($data[$key]);
+      }
+      else if($is_feiertag)
+      {
+        echo "<br>$value[0] ist ein Feiertag!";
+        if(isset($data[$key])) unset($data[$key]);
+      }
+      else
+      {
+        echo "<br>Der Kurs $value[5] wurde bereits vollständig gehalten.";
+        if(isset($data[$key])) unset($data[$key]);
+      }
+    }
+    return $data;
+  }
+?>
+  <body>
+    <?php
+    if(isset($bigdata)) $bigdata = drawKurse($connection, $bigdata, $user, $date);
+    if(isset($vertretungen)) $vertretungen = drawKurse($connection, $vertretungen, $user, $date);
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+
+$gesamtStunden = 0;
+$vertretungStunden = 0;
+$sparten = null;
+
+echo '
+<table cellpadding="5" cellspacing="0" style="width: 100%; ">
+
+ <tr>
+ <td colspan="1" style="font-size:1.3em; font-weight: bold; text-align: left;">
+<br>
+Hinzugefügt:
+<br>
+ </td>
+ </tr>
+ <tr style="background-color: #cccccc; padding:5px;">
+ <td style="padding:5px;"><b>Datum</b></td>
+ <td style="text-align: center;"><b>Kurs</b></td>
+ <td style="text-align: center;"><b>Sparte</b></td>
+ <td style="text-align: center;"><b>Dauer</b></td>
+ </tr>';
+//HIER SIND DIE SPEZIFISCHEN DATEN
+  $date = null;
+  if(isset($bigdata))
+  {
+    foreach($bigdata as &$value)
+    {
+      if(!isset($value))
+      {
+        continue;
+      }
+      //hinmalen der Kurse, ungültige Kurse bereits im Vorraus gelöscht
+      if($date == $value[0])
+      {
+        echo "<tr><td>Kursnummer: $value[4]</td><td>$value[5]</td><td>$value[7]</td><td>$value[6]min</td></tr>";
+      }
+      else
+      {
+        $date = $value[0];
+        echo "<tr><td>$value[1], den $date:</td></tr>";
+        echo "<tr><td>Kursnummer: $value[4]</td><td>$value[5]</td><td>$value[7]</td><td>$value[6]min</td></tr>";
+      }
+      if(isset(${$value[7].'Stunden'}))
+      {
+        ${$value[7].'Stunden'} += intval($value[6]);
+      }
+      else
+      {
+        ${$value[7].'Stunden'} = 0;
+        ${$value[7].'Stunden'} += intval($value[6]);
+        $sparten[count($sparten)] = $value[7];
+      }
+      $gesamtStunden = $gesamtStunden + intval($value[6]);
+      //echo "<br>Datum - Beginn-EndeUhr - Kursnummer - Kurstitel => DauerMin";
+    }
+  }
+  if(isset($vertretungen))
+  {
+    echo "<tr style='width:100%;'><td><b>Vertretungen:</b></td></tr>";
+    $date = null;
+    foreach($vertretungen as &$value)
+    {
+      if(!isset($value))
+      {
+        continue;
+      }
+      //hinmalen der Kurse, ungültige Kurse bereits im Vorraus gelöscht
+      if($date == $value[0])
+      {
+        echo "<tr style='width:100%;'><td>Kursnummer: $value[4]</td><td>$value[5]</td><td>$value[7]</td><td>$value[6]min</td></tr>";
+      }
+      else
+      {
+        $date = $value[0];
+        echo "<tr><td style='text-align:center;'>$value[1], den $date:</td></tr>";
+        echo "<tr style='width:100%;'><td>Kursnummer: $value[4]</td><td>$value[5]</td><td>$value[7]</td><td>$value[6]min</td></tr>";
+      }
+      $vertretungStunden += $value[6];
+      //echo "<br>Datum - Beginn-EndeUhr - Kursnummer - Kurstitel => DauerMin";
+    }
+  }
+//HIER ZUENDE
+if(isset($sparten))
+{
+  foreach($sparten as &$value)
+  {
+    $stundenzahl = ${$value.'Stunden'}/60;
+    echo '
+      <tr style="background-color: #cccccc; padding:5px;">
+        <td style="text-align: left;"><b>'.$value.'stunden: </b></td>
+        <td></td>
+        <td></td>
+        <td><b>'.number_format(${$value.'Stunden'}/60, 2, ',', '').' h</b></td>
+      </tr>';
+    $month = date("m",strtotime($date));
+    switch($month)
+    {
+      case "01": $month = "Januar"; break;
+      case "02": $month = "Februar"; break;
+      case "03": $month = "März"; break;
+      case "04": $month = "April"; break;
+      case "05": $month = "Mai"; break;
+      case "06": $month = "Juni"; break;
+      case "07": $month = "Juli"; break;
+      case "08": $month = "August"; break;
+      case "09": $month = "September"; break;
+      case "10": $month = "Oktober"; break;
+      case "11": $month = "November"; break;
+      case "12": $month = "Dezember"; break;
+      default: echo "$month -> Fehlerhaftes Format"; $month = "$month.Fehlerhaft"; break;
+    }
+    $query = "INSERT INTO `Rechnungen` (`Vorname`, `Nachname`, `ID`, `Monat`,`Sparte`,`Stundenzahl`) VALUES ('$firstname', '$lastname', '$user[0]', '$month', '$value','$stundenzahl') ON DUPLICATE KEY UPDATE Stundenzahl = Stundenzahl + $stundenzahl";
+    $result = mysqli_query($connection,$query);
+  }
+}
+if($vertretungStunden > 0)
+{
+  echo '
+    <tr style="background-color: #cccccc; padding:5px;">
+      <td style="text-align: left;"><b>Vertretungen: </b></td>
+      <td></td>
+      <td></td>
+      <td><b>'.number_format($vertretungStunden/60, 2, ',', '').' h</b></td>
+    </tr>';
+    $month = date("m",strtotime($date));
+    switch($month)
+    {
+      case "01": $month = "Januar"; break;
+      case "02": $month = "Februar"; break;
+      case "03": $month = "März"; break;
+      case "04": $month = "April"; break;
+      case "05": $month = "Mai"; break;
+      case "06": $month = "Juni"; break;
+      case "07": $month = "Juli"; break;
+      case "08": $month = "August"; break;
+      case "09": $month = "September"; break;
+      case "10": $month = "Oktober"; break;
+      case "11": $month = "November"; break;
+      case "12": $month = "Dezember"; break;
+      default: echo "$month -> Fehlerhaftes Format"; $month = "ungültiger Monat"; break;
+    }
+    $vertretungStunden = number_format($vertretungStunden/60, 2);
+    $query = "INSERT INTO `Rechnungen` (`Vorname`, `Nachname`, `ID`, `Monat`,`Sparte`,`Stundenzahl`) VALUES ('$firstname', '$lastname', '$user[0]', '$month', 'Vertretungen','$vertretungStunden') ON DUPLICATE KEY UPDATE Stundenzahl = Stundenzahl + $vertretungStunden";
+    $result = mysqli_query($connection,$query);
+  }
+  echo'
+            <tr style="background-color: #cccccc; padding:5px; border: thin black;">
+                <td style="text-align: left;"><b>Gesamtstunden: </b></td>
+                <td></td>
+                <td></td>
+                <td><b>'.number_format($gesamtStunden/60, 2, ',', '').' h</b></td>
+            </tr>
+        </table>
+        <br><br><br>';
+
+  echo "<a href='/log-in/'>Logout</a>";
+
+  if(!isset($value[0])) $value[0] = date('d.m.Y');
+  $dateBegin =  date('01.m.Y', strtotime($value[0]));
+  $dateEnd = date('t.m.Y', strtotime($value[0]));
+
+  $query = "SELECT gehalteneKurse.Kurstitel, gehalteneKurse.Kursnummer, Datum, Uhrzeit_Beginn FROM `gehalteneKurse` JOIN Kurse WHERE Kurse.Kurstitel = gehalteneKurse.Kurstitel AND Kurse.Kursnummer = gehalteneKurse.Kursnummer AND Datum >= '$dateBegin' AND Datum <='$dateEnd' AND (KursleiterTats1 = '$userid' OR KursleiterTats2 = '$userid' OR KursleiterTats3 = '$userid' OR KursleiterTats4 = '$userid') ORDER BY Datum DESC, Uhrzeit_Beginn";
+  $result = mysqli_query($connection, $query);
+
+  if($result)
+  {
+    $titel = null;
+    echo "<h2>Bereits eingetragen:</h2>";
+
+    while ($row=mysqli_fetch_array($result))
+    {
+      $row[2] = date("d.m.Y",strtotime($row[2]));
+      if($titel!=$row[2]) echo "<br><b>$row[2]</b>"; $titel=$row[2];
+      echo "<br>$row[0], $row[1]";
+    }
+  }
+
+  mysqli_close($connection);
